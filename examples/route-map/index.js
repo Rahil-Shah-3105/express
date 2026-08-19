@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -12,6 +13,7 @@ var verbose = process.env.NODE_ENV !== 'test'
 var app = module.exports = express();
 
 app.map = function(a, route){
+logger.debug(`>>> Entering function(a=${a},route=${route})`);
   route = route || '';
   for (var key in a) {
     switch (typeof a[key]) {
@@ -23,6 +25,7 @@ app.map = function(a, route){
       case 'function':
         if (verbose) console.log('%s %s', key, route);
         app[key](route, a[key]);
+		logger.debug(`<<< Exiting function(a=${a},route=${route})`);
         break;
     }
   }
@@ -30,7 +33,11 @@ app.map = function(a, route){
 
 var users = {
   list: function(req, res){
+	logger.debug('>>> Entering get()');
     res.send('user list');
+	logger.debug(`>>> Entering list(req=${req},res=${res})`);
+	logger.debug('<<< Exiting get()');
+	logger.debug(`<<< Exiting list(req=${req},res=${res})`);
   },
 
   get: function(req, res){
@@ -38,7 +45,9 @@ var users = {
   },
 
   delete: function(req, res){
+	logger.debug(`>>> Entering delete(req=${req},res=${res})`);
     res.send('delete users');
+	logger.debug(`<<< Exiting delete(req=${req},res=${res})`);
   }
 };
 

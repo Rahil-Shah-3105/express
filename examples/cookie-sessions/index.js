@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -14,10 +15,12 @@ app.use(cookieSession({ secret: 'manny is cool' }));
 
 // do something with the session
 app.get('/', function (req, res) {
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   req.session.count = (req.session.count || 0) + 1
   res.send('viewed ' + req.session.count + ' times\n')
 })
 
+logger.debug(`<<< Exiting GET_root(req=${req},res=${res})`);
 /* istanbul ignore next */
 if (!module.parent) {
   app.listen(3000);

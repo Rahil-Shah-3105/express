@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake posts database
@@ -9,5 +10,7 @@ var posts = [
 ];
 
 exports.list = function(req, res){
+logger.debug(`>>> Entering list(req=${req},res=${res})`);
   res.render('posts', { title: 'Posts', posts: posts });
+logger.debug(`<<< Exiting list(req=${req},res=${res})`);
 };

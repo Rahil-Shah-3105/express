@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 
 async function initializeRedis() {
+logger.debug('>>> Entering initializeRedis()');
   try {
     // connect to Redis
 
@@ -41,6 +43,7 @@ async function initializeRedis() {
     await db.sAdd('cat', 'luna');
   } catch (err) {
     console.error('Error initializing Redis:', err);
+	logger.debug('<<< Exiting initializeRedis()');
     process.exit(1);
   }
 }
@@ -50,14 +53,17 @@ async function initializeRedis() {
  */
 
 app.get('/search/{:query}', function (req, res, next) {
+logger.debug(`>>> Entering GET_search_query(req=${req},res=${res},next=${next})`);
   var query = req.params.query || '';
   db.sMembers(query)
     .then((vals) => res.send(vals))
     .catch((err) => {
       console.error(`Redis error for query "${query}":`, err);
+	logger.debug(`GET_search_query(req=${req},res=${res},next=${next}): query → ${query}`);
       next(err);
     });
 });
+logger.debug(`<<< Exiting GET_search_query(req=${req},res=${res},next=${next})`);
 
 /**
  * GET client javascript. Here we use sendFile()
@@ -67,8 +73,10 @@ app.get('/search/{:query}', function (req, res, next) {
  */
 
 app.get('/client.js', function(req, res){
+logger.debug(`>>> Entering GET_client_js(req=${req},res=${res})`);
   res.sendFile(path.join(__dirname, 'client.js'));
 });
+logger.debug(`<<< Exiting GET_client_js(req=${req},res=${res})`);
 
 /**
  * Start the Server

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -43,12 +44,14 @@ var users = [
 ];
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.render('users', {
     users: users,
     title: "EJS example",
     header: "Some users"
   });
 });
+logger.debug(`<<< Exiting GET_root(req=${req},res=${res})`);
 
 /* istanbul ignore next */
 if (!module.parent) {
