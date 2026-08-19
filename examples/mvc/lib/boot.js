@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -9,9 +10,12 @@ var fs = require('node:fs');
 var path = require('node:path');
 
 module.exports = function(parent, options){
+logger.debug(`>>> Entering moduleExport(parent=${parent},options=${options})`);
   var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
+logger.debug(`moduleExport(parent=${parent},options=${options}): dir → ${dir}`);
   fs.readdirSync(dir).forEach(function(name){
+	logger.debug(`<<< Exiting moduleExport(parent=${parent},options=${options})`);
     var file = path.join(dir, name)
     if (!fs.statSync(file).isDirectory()) return;
     verbose && console.log('\n   %s:', name);

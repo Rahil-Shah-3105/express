@@ -22,11 +22,14 @@ app.set('views', path.join(__dirname, 'views'));
 // define a custom res.message() method
 // which stores messages in the session
 app.response.message = function(msg){
+logger.debug(`>>> Entering function(msg=${msg})`);
   // reference `req.session` via the `this.req` reference
   var sess = this.req.session;
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
+logger.debug(`function(msg=${msg}): sess.messages → ${sess.messages}`);
   sess.messages.push(msg);
+logger.debug(`<<< Exiting function(msg=${msg})`);
   return this;
 };
 
@@ -77,6 +80,7 @@ require('./lib/boot')(app, { verbose: !module.parent });
 
 app.use(function(err, req, res, next){
   // log it
+logger.debug('>>> Entering use()');
   if (!module.parent) console.error(err.stack);
 
   // error page
@@ -92,4 +96,5 @@ app.use(function(req, res, next){
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');
+logger.debug(`<<< Exiting use(msgs=${msgs})`);
 }

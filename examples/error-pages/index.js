@@ -28,27 +28,37 @@ silent || app.use(logger('dev'));
 // Routes
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.render('index.ejs');
 });
 
+logger.debug(`<<< Exiting GET_root(req=${req},res=${res})`);
 app.get('/404', function(req, res, next){
+logger.debug(`>>> Entering GET_404(req=${req},res=${res},next=${next})`);
   // trigger a 404 since no other middleware
   // will match /404 after this one, and we're not
   // responding here
   next();
 });
+logger.debug(`<<< Exiting GET_404(req=${req},res=${res},next=${next})`);
 
 app.get('/403', function(req, res, next){
+logger.debug(`>>> Entering GET_403(req=${req},res=${res},next=${next})`);
   // trigger a 403 error
   var err = new Error('not allowed!');
+logger.debug(`GET_403(req=${req},res=${res},next=${next}): err → ${err}`);
   err.status = 403;
   next(err);
 });
+logger.debug(`GET_403(req=${req},res=${res},next=${next}): err.status → ${err.status}`);
 
+logger.debug(`<<< Exiting GET_403(req=${req},res=${res},next=${next})`);
 app.get('/500', function(req, res, next){
+logger.debug(`>>> Entering GET_500(req=${req},res=${res},next=${next})`);
   // trigger a generic (500) error
   next(new Error('keyboard cat!'));
 });
+logger.debug(`<<< Exiting GET_500(req=${req},res=${res},next=${next})`);
 
 // Error handlers
 
@@ -61,20 +71,28 @@ app.get('/500', function(req, res, next){
 // $ curl http://localhost:3000/notfound -H "Accept: text/plain"
 
 app.use(function(req, res, next){
+logger.debug('>>> Entering use()');
   res.status(404);
 
   res.format({
     html: function () {
+	logger.debug('>>> Entering html()');
       res.render('404', { url: req.url })
+	logger.debug('<<< Exiting html()');
     },
     json: function () {
+	logger.debug('>>> Entering json()');
       res.json({ error: 'Not found' })
+	logger.debug('<<< Exiting json()');
     },
     default: function () {
+	logger.debug('>>> Entering default()');
       res.type('txt').send('Not found')
+	logger.debug('<<< Exiting default()');
     }
   })
 });
+logger.debug('<<< Exiting use()');
 
 // error-handling middleware, take the same form
 // as regular middleware, however they require an
