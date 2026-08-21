@@ -25,6 +25,7 @@ app.use(session({
 }));
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   var body = '';
   if (req.session.views) {
     ++req.session.views;

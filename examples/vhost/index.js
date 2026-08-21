@@ -23,10 +23,12 @@ var main = express();
 if (!module.parent) main.use(logger('dev'));
 
 main.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.send('Hello from main app!');
 });
 
 main.get('/:sub', function(req, res){
+logger.debug(`>>> Entering GET_sub(req=${req},res=${res})`);
   res.send('requested ' + req.params.sub);
 });
 
@@ -35,6 +37,7 @@ main.get('/:sub', function(req, res){
 var redirect = express();
 
 redirect.use(function(req, res){
+logger.debug('>>> Entering use()');
   if (!module.parent) console.log(req.vhost);
   res.redirect('http://example.com:3000/' + req.vhost[0]);
 });

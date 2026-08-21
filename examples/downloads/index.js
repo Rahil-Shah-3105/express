@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -13,6 +14,7 @@ var app = module.exports = express();
 var FILES_DIR = path.join(__dirname, 'files')
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.send('<ul>' +
     '<li>Download <a href="/files/notes/groceries.txt">notes/groceries.txt</a>.</li>' +
     '<li>Download <a href="/files/amazing.txt">amazing.txt</a>.</li>' +
@@ -24,11 +26,13 @@ app.get('/', function(req, res){
 // /files/* is accessed via req.params[0]
 // but here we name it :file
 app.get('/files/*file', function (req, res, next) {
+logger.debug(`>>> Entering GET_files_file(req=${req},res=${res},next=${next})`);
   res.download(req.params.file.join('/'), { root: FILES_DIR }, function (err) {
     if (!err) return; // file sent
     if (err.status !== 404) return next(err); // non-404 error
     // file for download not found
     res.statusCode = 404;
+	logger.debug(`GET_files_file(req=${req},res=${res},next=${next}): res.statusCode → ${res.statusCode}`);
     res.send('Cant find that file, sorry!');
   });
 });

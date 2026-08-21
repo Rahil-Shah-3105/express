@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -15,10 +16,12 @@ app.engine('md', function(str, options, fn){
   try {
     var html = md(str);
     html = html.replace(/\{([^}]+)\}/g, function(_, name){
+	logger.debug(`engine(html=${html}): html → ${html}`);
       return options[name] || '';
     });
     fn(null, html);
   } catch(err) {
+	logger.error(`Exception in engine(html=${html}): ${err.message}`, err);
     fn(err);
   }
 });
@@ -30,6 +33,7 @@ app.set('views', 'expressjs/express');
 app.set('view', GithubView);
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   // rendering a view relative to the repo.
   // app.locals, res.locals, and locals passed
   // work like they normally would
@@ -37,6 +41,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/Readme.md', function(req, res){
+logger.debug(`>>> Entering GET_Readme_md(req=${req},res=${res})`);
   // rendering a view from https://github.com/expressjs/express/blob/master/Readme.md
   res.render('Readme.md');
 });

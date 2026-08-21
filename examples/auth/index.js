@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -58,6 +59,7 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 // Authenticate using our plain-object database of doom!
 
 function authenticate(name, pass, fn) {
+logger.debug(`>>> Entering authenticate(name=${name},pass=${pass},fn=${fn})`);
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
@@ -70,38 +72,48 @@ function authenticate(name, pass, fn) {
     if (hash === user.hash) return fn(null, user)
     fn(null, null)
   });
+logger.debug('>>> Entering authenticate()');
+logger.debug('<<< Exiting authenticate()');
 }
 
 function restrict(req, res, next) {
+logger.debug(`>>> Entering restrict(req=${req},res=${res},next=${next})`);
   if (req.session.user) {
     next();
   } else {
     req.session.error = 'Access denied!';
     res.redirect('/login');
+	logger.debug(`<<< Exiting restrict(req=${req},res=${res},next=${next})`);
   }
 }
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.redirect('/login');
 });
 
 app.get('/restricted', restrict, function(req, res){
+logger.debug(`>>> Entering GET_restricted(req=${req},res=${res})`);
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
 app.get('/logout', function(req, res){
+logger.debug(`>>> Entering GET_logout(req=${req},res=${res})`);
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.debug('>>> Entering destroy()');
     res.redirect('/');
   });
 });
 
 app.get('/login', function(req, res){
+logger.debug(`>>> Entering GET_login(req=${req},res=${res})`);
   res.render('login');
 });
 
 app.post('/login', function (req, res, next) {
+logger.debug(`>>> Entering POST_login(req=${req},res=${res},next=${next})`);
   if (!req.body) return res.sendStatus(400)
   authenticate(req.body.username, req.body.password, function(err, user){
     if (err) return next(err)
@@ -109,6 +121,7 @@ app.post('/login', function (req, res, next) {
       // Regenerate session when signing in
       // to prevent fixation
       req.session.regenerate(function(){
+		logger.debug('>>> Entering regenerate()');
         // Store the user's primary key
         // in the session store to be retrieved,
         // or in this case the entire user object
