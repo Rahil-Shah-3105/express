@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -13,8 +14,11 @@ var app = module.exports = express();
 // custom error handler (Connect respects this prop as well)
 
 function error(status, msg) {
+logger.debug(`>>> Entering error(status=${status},msg=${msg})`);
   var err = new Error(msg);
   err.status = status;
+logger.debug(`error(status=${status},msg=${msg}): err → ${err}`);
+logger.debug(`error(status=${status},msg=${msg}): err.status → ${err.status}`);
   return err;
 }
 
@@ -30,6 +34,7 @@ function error(status, msg) {
 app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
 
+logger.warn(`use(key=${key}): key → ${key}`);
   // key isn't present
   if (!key) return next(error(400, 'api key required'));
 
@@ -38,6 +43,7 @@ app.use('/api', function(req, res, next){
 
   // all good, store req.key for route access
   req.key = key;
+logger.debug(`use(key=${key}): req.key → ${req.key}`);
   next();
 });
 
@@ -73,18 +79,22 @@ var userRepos = {
 
 // example: http://localhost:3000/api/users/?api-key=foo
 app.get('/api/users', function (req, res) {
+logger.debug(`>>> Entering GET_api_users(req=${req},res=${res})`);
   res.send(users);
 });
 
 // example: http://localhost:3000/api/repos/?api-key=foo
 app.get('/api/repos', function (req, res) {
+logger.debug(`>>> Entering GET_api_repos(req=${req},res=${res})`);
   res.send(repos);
 });
 
 // example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
 app.get('/api/user/:name/repos', function(req, res, next){
+logger.debug(`>>> Entering GET_api_user_name_repos(req=${req},res=${res},next=${next})`);
   var name = req.params.name;
   var user = userRepos[name];
+logger.debug(`GET_api_user_name_repos(req=${req},res=${res},next=${next}): name → ${name}`);
 
   if (user) res.send(user);
   else next();
@@ -96,6 +106,7 @@ app.get('/api/user/:name/repos', function(req, res, next){
 // in order, but ONLY those with an arity of 4, ignoring
 // regular middleware.
 app.use(function(err, req, res, next){
+logger.debug('>>> Entering use()');
   // whatever you want here, feel free to populate
   // properties on `err` to treat it differently in here.
   res.status(err.status || 500);

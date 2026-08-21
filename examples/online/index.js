@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -28,6 +29,7 @@ var app = express();
 // the UA string, you would use req.user.id etc
 
 app.use(function(req, res, next){
+logger.debug('>>> Entering use()');
   // fire-and-forget
   online.add(req.headers['user-agent']);
   next();
@@ -38,7 +40,10 @@ app.use(function(req, res, next){
  */
 
 function list(ids) {
+logger.debug(`>>> Entering list(ids=${ids})`);
   return '<ul>' + ids.map(function(id){
+logger.debug('>>> Entering map()');
+	logger.debug(`<<< Exiting list(ids=${ids})`);
     return '<li>' + id + '</li>';
   }).join('') + '</ul>';
 }
@@ -48,7 +53,9 @@ function list(ids) {
  */
 
 app.get('/', function(req, res, next){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res},next=${next})`);
   online.last(5, function(err, ids){
+	logger.debug('>>> Entering last()');
     if (err) return next(err);
     res.send('<p>Users online: ' + ids.length + '</p>' + list(ids));
   });

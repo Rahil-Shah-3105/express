@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,12 +22,15 @@ module.exports = GithubView;
  */
 
 function GithubView(name, options){
+logger.debug(`>>> Entering GithubView(name=${name},options=${options})`);
   this.name = name;
   options = options || {};
   this.engine = options.engines[extname(name)];
+logger.debug(`GithubView(name=${name},options=${options}): name → ${name}`);
   // "root" is the app.set('views') setting, however
   // in your own implementation you could ignore this
   this.path = '/' + options.root + '/master/' + name;
+logger.debug(`GithubView(name=${name},options=${options}): this.name → ${this.name}`);
 }
 
 /**
@@ -34,6 +38,7 @@ function GithubView(name, options){
  */
 
 GithubView.prototype.render = function(options, fn){
+logger.debug(`>>> Entering function(options=${options},fn=${fn})`);
   var self = this;
   var opts = {
     host: 'raw.githubusercontent.com',
@@ -42,11 +47,15 @@ GithubView.prototype.render = function(options, fn){
     method: 'GET'
   };
 
+logger.debug(`<<< Exiting function(options=${options},fn=${fn})`);
   https.request(opts, function(res) {
     var buf = '';
     res.setEncoding('utf8');
+	logger.debug(`request(opts=${opts},buf=${buf}): buf → ${buf}`);
     res.on('data', function(str){ buf += str });
+	logger.debug(`<<< Exiting request(opts=${opts},buf=${buf})`);
     res.on('end', function(){
+	logger.debug('>>> Entering on()');
       self.engine(buf, options, fn);
     });
   }).end();

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,11 +22,13 @@ var users = [
 // Convert :to and :from to integers
 
 app.param(['to', 'from'], function(req, res, next, num, name){
+logger.debug('>>> Entering param()');
   req.params[name] = parseInt(num, 10);
   if( isNaN(req.params[name]) ){
     next(createError(400, 'failed to parseInt '+num));
   } else {
     next();
+	logger.debug('<<< Exiting param()');
   }
 });
 
@@ -34,6 +37,7 @@ app.param(['to', 'from'], function(req, res, next, num, name){
 app.param('user', function(req, res, next, id){
   req.user = users[id]
   if (req.user) {
+	logger.debug(`param(): req.user → ${req.user}`);
     next();
   } else {
     next(createError(404, 'failed to find user'));
@@ -45,6 +49,7 @@ app.param('user', function(req, res, next, id){
  */
 
 app.get('/', function(req, res){
+logger.debug(`>>> Entering GET_root(req=${req},res=${res})`);
   res.send('Visit /user/0 or /users/0-2');
 });
 
@@ -53,6 +58,7 @@ app.get('/', function(req, res){
  */
 
 app.get('/user/:user', function (req, res) {
+logger.debug(`>>> Entering GET_user_user(req=${req},res=${res})`);
   res.send('user ' + req.user.name);
 });
 
@@ -61,6 +67,7 @@ app.get('/user/:user', function (req, res) {
  */
 
 app.get('/users/:from-:to', function (req, res) {
+logger.debug(`>>> Entering GET_users_from_to(req=${req},res=${res})`);
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
