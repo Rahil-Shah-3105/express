@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ function loadUser(req, res, next) {
   } else {
     next(new Error('Failed to load user ' + req.params.id));
   }
+logger.warn(`loadUser(req,res,next)=${req},${res},${next}: NYCLL144-AUDIT: Record access recorded for the audit trail`);
 }
 
 function andRestrictToSelf(req, res, next) {
