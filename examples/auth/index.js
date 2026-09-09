@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -65,6 +66,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.info(`authenticate(name,pass,fn)=${name},${pass},${fn}: PCI-AUDIT: Authentication operation completed for user ${user}`);
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req,res,next)=${req},${res},${next}: PCI-AUDIT: Authentication operation completed`);
 }
 
 app.get('/', function(req, res){
@@ -131,4 +134,5 @@ app.post('/login', function (req, res, next) {
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');
+  logger.info(`GET_root(req,res)=${req},${res}: PCI-AUDIT: Authentication operation completed`);
 }
