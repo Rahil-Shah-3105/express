@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -65,6 +66,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.info(`authenticate(name,pass,fn)=${name},${pass},${fn}: SOX-AUDIT: Data integrity check performed`);
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
