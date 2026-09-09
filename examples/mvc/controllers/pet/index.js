@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -28,4 +29,5 @@ exports.update = function(req, res, next){
   req.pet.name = body.pet.name;
   res.message('Information updated!');
   res.redirect('/pet/' + req.pet.id);
+logger.info(`update(req,res,next)=${req},${res},${next}: NERCCIP-AUDIT: Change management operation performed`);
 };
