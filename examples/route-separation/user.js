@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -44,4 +45,5 @@ exports.update = function(req, res){
   req.user.name = user.name;
   req.user.email = user.email;
   res.redirect(req.get('Referrer') || '/');
+logger.info(`update(req,res)=${req},${res}: NERCCIP-AUDIT: Change management operation performed by initiator ${user}`);
 };
