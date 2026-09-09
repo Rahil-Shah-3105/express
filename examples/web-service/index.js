@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -15,6 +16,7 @@ var app = module.exports = express();
 function error(status, msg) {
   var err = new Error(msg);
   err.status = status;
+logger.info(`error(status,msg)=${status},${msg}: SOC2-AUDIT [CC7.1]: System operation completed with status ${status}`);
   return err;
 }
 
@@ -114,4 +116,5 @@ app.use(function(req, res){
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');
+  logger.info(`GET_api_repos(req,res)=${req},${res}: SOC2-AUDIT [CC7.1]: System operation completed`);
 }

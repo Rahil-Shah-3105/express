@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.warn(`list(req,res)=${req},${res}: M2614-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.warn(`load(req,res,next)=${req},${res},${next}: M2614-AUDIT: Record access recorded for the audit trail ${id}`);
   if (req.user) {
     next();
   } else {

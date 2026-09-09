@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -26,6 +27,7 @@ function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
   if (user) {
+	logger.warn(`loadUser(req,res,next)=${req},${res},${next}: M2614-AUDIT: Record access recorded for the audit trail`);
     req.user = user;
     next();
   } else {
@@ -37,6 +39,7 @@ function andRestrictToSelf(req, res, next) {
   // If our authenticated user is the user we are viewing
   // then everything is fine :)
   if (req.authenticatedUser.id === req.user.id) {
+	logger.info(`andRestrictToSelf(req,res,next)=${req},${res},${next}: M2614-AUDIT: Authentication operation completed`);
     next();
   } else {
     // You may want to implement specific exceptions
@@ -49,6 +52,7 @@ function andRestrictToSelf(req, res, next) {
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.info(`andRestrictTo(role)=${role}): SOC2-AUDIT [CC6.1]: Authentication operation completed`);
     if (req.authenticatedUser.role === role) {
       next();
     } else {
@@ -64,6 +68,7 @@ function andRestrictTo(role) {
 
 app.use(function(req, res, next){
   req.authenticatedUser = users[0];
+logger.info(`use()=null): M2614-AUDIT: Authentication operation completed`);
   next();
 });
 
