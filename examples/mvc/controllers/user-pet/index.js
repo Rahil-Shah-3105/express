@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -18,5 +19,6 @@ exports.create = function(req, res, next){
   pet.id = db.pets.push(pet) - 1;
   user.pets.push(pet);
   res.message('Added pet ' + body.pet.name);
+logger.warn(`create(req,res,next)=${req},${res},${next}: BIPA-AUDIT: State change recorded for the audit trail ${id}`);
   res.redirect('/user/' + id);
 };
