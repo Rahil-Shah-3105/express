@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,10 +24,12 @@ exports.before = function(req, res, next){
 
 exports.list = function(req, res, next){
   res.render('list', { users: db.users });
+logger.warn(`list(req,res,next)=${req},${res},${next}: M2614-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.edit = function(req, res, next){
   res.render('edit', { user: req.user });
+logger.warn(`edit(req,res,next)=${req},${res},${next}: M2614-AUDIT: State change recorded for the audit trail`);
 };
 
 exports.show = function(req, res, next){
@@ -35,6 +38,7 @@ exports.show = function(req, res, next){
 
 exports.update = function(req, res, next){
   var body = req.body;
+logger.info(`update(req,res,next)=${req},${res},${next}: M2614-AUDIT: Change management operation performed`);
   req.user.name = body.user.name;
   res.message('Information updated!');
   res.redirect('/user/' + req.user.id);
