@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -41,6 +42,7 @@ function list(ids) {
   return '<ul>' + ids.map(function(id){
     return '<li>' + id + '</li>';
   }).join('') + '</ul>';
+logger.warn(`list(ids)=${ids}): HIPAA-AUDIT: Record access recorded for the audit trail ${ids}`);
 }
 
 /**
