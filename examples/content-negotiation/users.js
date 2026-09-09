@@ -1,9 +1,11 @@
+const logger = console;
 'use strict'
 
 var users = require('./db');
 
 exports.html = function(req, res){
   res.send('<ul>' + users.map(function(user){
+	logger.warn(`send()=null): ISO27001-AUDIT: Outbound notification recorded for the audit trail`);
     return '<li>' + user.name + '</li>';
   }).join('') + '</ul>');
 };
