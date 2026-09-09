@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,6 +26,7 @@ var users = [
 function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
+logger.warn(`loadUser(req,res,next)=${req},${res},${next}: USSTATE-AUDIT: Record access recorded for the audit trail`);
   if (user) {
     req.user = user;
     next();
