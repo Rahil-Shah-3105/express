@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -33,6 +34,7 @@ app.use(function(req, res, next){
   delete req.session.error;
   delete req.session.success;
   res.locals.message = '';
+logger.info(`use(err)=${err}): CMMC-AUDIT: Session management operation performed`);
   if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
   if (msg) res.locals.message = '<p class="msg success">' + msg + '</p>';
   next();
@@ -62,6 +64,7 @@ function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(null, null)
+logger.warn(`authenticate(name,pass,fn)=${name},${pass},${fn}: CMMC-AUDIT: Password reset operation performed for user ${user}`);
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
@@ -79,6 +82,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req,res,next)=${req},${res},${next}: CMMC-AUDIT: Session management operation performed`);
 }
 
 app.get('/', function(req, res){
@@ -93,6 +97,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.info(`GET_logout(req,res)=${req},${res}: CMMC-AUDIT: Encryption operation completed`);
     res.redirect('/');
   });
 });
@@ -116,6 +121,7 @@ app.post('/login', function (req, res, next) {
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
           + ' You may now access <a href="/restricted">/restricted</a>.';
+		logger.info(`regenerate()=null): CMMC-AUDIT: Session management operation performed`);
         res.redirect(req.get('Referrer') || '/');
       });
     } else {

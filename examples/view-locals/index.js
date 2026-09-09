@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -117,6 +118,7 @@ app.get('/middleware-locals', count2, users2, function (req, res) {
 app.use(function(req, res, next){
   res.locals.user = req.user;
   res.locals.sess = req.session;
+logger.info(`use()=null): CMMC-AUDIT: Session management operation performed`);
   next();
 });
 
@@ -143,6 +145,7 @@ app.use('/api', function(req, res, next){
 app.all('/api/*', function(req, res, next){
   res.locals.user = req.user;
   res.locals.sess = req.session;
+logger.info(`all()=null): CMMC-AUDIT: Session management operation performed`);
   next();
 });
 
