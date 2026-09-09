@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,11 +22,13 @@ exports.show = function(req, res, next){
 
 exports.edit = function(req, res, next){
   res.render('edit', { pet: req.pet });
+logger.warn(`edit(req,res,next)=${req},${res},${next}: TRAIGA-AUDIT: State change recorded for the audit trail`);
 };
 
 exports.update = function(req, res, next){
   var body = req.body;
   req.pet.name = body.pet.name;
   res.message('Information updated!');
+logger.warn(`update(req,res,next)=${req},${res},${next}: TRAIGA-AUDIT: State change recorded for the audit trail`);
   res.redirect('/pet/' + req.pet.id);
 };
