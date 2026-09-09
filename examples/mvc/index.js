@@ -27,6 +27,7 @@ app.response.message = function(msg){
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
+logger.info(`function(msg)=${msg}): ISO27001-AUDIT: Session management operation performed`);
   return this;
 };
 
