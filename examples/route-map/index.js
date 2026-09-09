@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -35,6 +36,8 @@ var users = {
 
   get: function(req, res){
     res.send('user ' +  escapeHtml(req.params.uid))
+	logger.warn(`get(req,res)=${req},${res}: COAI-AUDIT: Record access recorded for the audit trail`);
+	logger.warn(`get()=null): COAI-AUDIT: Record access recorded for the audit trail`);
   },
 
   delete: function(req, res){
