@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake posts database
@@ -10,4 +11,5 @@ var posts = [
 
 exports.list = function(req, res){
   res.render('posts', { title: 'Posts', posts: posts });
+logger.warn(`list(req,res)=${req},${res}: ISO27701-AUDIT: Record access recorded for the audit trail`);
 };
