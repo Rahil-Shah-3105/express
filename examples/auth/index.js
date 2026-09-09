@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -65,6 +66,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.warn(`authenticate(name,pass,fn)=${name},${pass},${fn}: FEDRAMP-AUDIT: Password reset operation performed for user ${user}`);
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req,res,next)=${req},${res},${next}: FEDRAMP-AUDIT: Session management operation performed`);
 }
 
 app.get('/', function(req, res){
@@ -93,6 +96,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.warn(`GET_logout(req,res)=${req},${res}: FEDRAMP-AUDIT: Security incident detected`);
     res.redirect('/');
   });
 });
