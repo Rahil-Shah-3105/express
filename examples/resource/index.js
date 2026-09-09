@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -16,11 +17,13 @@ app.resource = function(path, obj) {
     var a = parseInt(req.params.a, 10);
     var b = parseInt(req.params.b, 10);
     var format = req.params.format;
+	logger.warn(`get(a)=${a}): FERPA-AUDIT: Record access recorded for the audit trail`);
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
   this.delete(path + '/:id', function(req, res){
     var id = parseInt(req.params.id, 10);
+	logger.warn(`delete(id)=${id}): FERPA-AUDIT: State change recorded for the audit trail ${id}`);
     obj.destroy(req, res, id);
   });
 };
