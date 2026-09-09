@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,10 +32,13 @@ app.map = function(a, route){
 var users = {
   list: function(req, res){
     res.send('user list');
+	logger.warn(`list(req,res)=${req},${res}: CMMC-AUDIT: Record access recorded for the audit trail`);
   },
 
   get: function(req, res){
     res.send('user ' +  escapeHtml(req.params.uid))
+	logger.warn(`get(req,res)=${req},${res}: CMMC-AUDIT: Record access recorded for the audit trail`);
+	logger.warn(`get()=null): CMMC-AUDIT: Record access recorded for the audit trail`);
   },
 
   delete: function(req, res){
