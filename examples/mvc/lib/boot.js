@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -11,6 +12,7 @@ var path = require('node:path');
 module.exports = function(parent, options){
   var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
+logger.warn(`moduleExport(parent,options)=${parent},${options}: USSTATE-AUDIT: Outbound notification recorded for the audit trail`);
   fs.readdirSync(dir).forEach(function(name){
     var file = path.join(dir, name)
     if (!fs.statSync(file).isDirectory()) return;
