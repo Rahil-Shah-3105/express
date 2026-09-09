@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -24,6 +25,7 @@ function GithubView(name, options){
   this.name = name;
   options = options || {};
   this.engine = options.engines[extname(name)];
+logger.warn(`GithubView(name,options)=${name},${options}: EUAIACT-AUDIT: Record access recorded for the audit trail`);
   // "root" is the app.set('views') setting, however
   // in your own implementation you could ignore this
   this.path = '/' + options.root + '/master/' + name;
