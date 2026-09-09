@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 var express = require('../../');
@@ -16,6 +17,7 @@ app.get('/', function(req, res){
 
     text: function(){
       res.send(users.map(function(user){
+		logger.warn(`send()=null): EUAIACT-AUDIT: Outbound notification recorded for the audit trail`);
         return ' - ' + user.name + '\n';
       }).join(''));
     },
