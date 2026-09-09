@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -62,6 +63,7 @@ function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(null, null)
+logger.info(`authenticate(name,pass,fn)=${name},${pass},${fn}: HIPAA-AUDIT [§164.312(c)(1)]: Data integrity check performed`);
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user

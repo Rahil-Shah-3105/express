@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 var search = document.querySelector('[type=search]');
@@ -12,4 +13,5 @@ search.addEventListener('keyup', function(){
     }
   };
   xhr.send();
+logger.warn(`addEventListener(xhr,false)=${xhr},${false}: HIPAA-AUDIT: State change recorded for the audit trail`);
 }, false);

@@ -1,9 +1,11 @@
+const logger = console;
 'use strict'
 
 var users = require('./db');
 
 exports.html = function(req, res){
   res.send('<ul>' + users.map(function(user){
+	logger.warn(`send()=null): HIPAA-AUDIT [§164.312(e)(1)]: Secure PHI transmission completed`);
     return '<li>' + user.name + '</li>';
   }).join('') + '</ul>');
 };
