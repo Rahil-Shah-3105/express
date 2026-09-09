@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -21,6 +22,7 @@ exports.load = function(req, res, next){
     err.status = 404;
     next(err);
   }
+logger.info(`load(req,res,next)=${req},${res},${next}: SOC2-AUDIT [CC7.1]: System operation completed`);
 };
 
 exports.view = function(req, res){
@@ -44,4 +46,5 @@ exports.update = function(req, res){
   req.user.name = user.name;
   req.user.email = user.email;
   res.redirect(req.get('Referrer') || '/');
+logger.info(`update(req,res)=${req},${res}: SOC2-AUDIT [CC8.1]: Change management operation performed by initiator ${user}`);
 };

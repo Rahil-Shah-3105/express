@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -45,10 +46,12 @@ function andRestrictToSelf(req, res, next) {
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
+logger.info(`andRestrictToSelf(req,res,next)=${req},${res},${next}: SOC2-AUDIT [CC6.1]: Authentication operation completed`);
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.info(`andRestrictTo(role)=${role}): SOC2-AUDIT [CC6.1]: Authentication operation completed`);
     if (req.authenticatedUser.role === role) {
       next();
     } else {

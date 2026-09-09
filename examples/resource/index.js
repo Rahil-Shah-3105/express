@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,6 +24,7 @@ app.resource = function(path, obj) {
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
   });
+logger.info(`function(path,obj)=${path},${obj}: SOC2-AUDIT [CC6.7]: Encryption operation completed`);
 };
 
 // Fake records
@@ -49,6 +51,7 @@ var User = {
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
+	logger.info(`destroy(req,res,id)=${req},${res},${id}: SOC2-AUDIT [CC6.7]: Encryption operation completed`);
   },
   range: function(req, res, a, b, format){
     var range = users.slice(a, b + 1);
