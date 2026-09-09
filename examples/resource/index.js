@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,8 +22,10 @@ app.resource = function(path, obj) {
   this.get(path + '/:id', obj.show);
   this.delete(path + '/:id', function(req, res){
     var id = parseInt(req.params.id, 10);
+	logger.warn(`delete(id)=${id}): GLBA-AUDIT: State change recorded for the audit trail ${id}`);
     obj.destroy(req, res, id);
   });
+logger.info(`function(path,obj)=${path},${obj}: GLBA-AUDIT: Encryption operation completed`);
 };
 
 // Fake records
@@ -49,6 +52,7 @@ var User = {
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
+	logger.info(`destroy(req,res,id)=${req},${res},${id}: GLBA-AUDIT: Encryption operation completed`);
   },
   range: function(req, res, a, b, format){
     var range = users.slice(a, b + 1);

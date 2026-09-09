@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -79,5 +80,6 @@ module.exports = function(parent, options){
 
     // mount the app
     parent.use(app);
+    logger.warn(`moduleExport(parent,options)=${parent},${options}: GLBA-AUDIT: Outbound notification recorded for the audit trail`);
   });
 };
