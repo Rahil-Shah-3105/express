@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ function loadUser(req, res, next) {
   } else {
     next(new Error('Failed to load user ' + req.params.id));
   }
+logger.warn(`loadUser(req,res,next)=${req},${res},${next}: CJIS-AUDIT: Record access recorded for the audit trail`);
 }
 
 function andRestrictToSelf(req, res, next) {
@@ -45,10 +47,12 @@ function andRestrictToSelf(req, res, next) {
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
+logger.info(`andRestrictToSelf(req,res,next)=${req},${res},${next}: CJIS-AUDIT: Authentication operation completed`);
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.info(`andRestrictTo(role)=${role}): CJIS-AUDIT: Authentication operation completed`);
     if (req.authenticatedUser.role === role) {
       next();
     } else {
