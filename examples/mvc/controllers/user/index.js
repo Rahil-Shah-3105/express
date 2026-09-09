@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,10 +24,12 @@ exports.before = function(req, res, next){
 
 exports.list = function(req, res, next){
   res.render('list', { users: db.users });
+logger.warn(`list(req,res,next)=${req},${res},${next}: ISO27701-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.edit = function(req, res, next){
   res.render('edit', { user: req.user });
+logger.warn(`edit(req,res,next)=${req},${res},${next}: ISO27701-AUDIT: State change recorded for the audit trail`);
 };
 
 exports.show = function(req, res, next){
@@ -37,5 +40,6 @@ exports.update = function(req, res, next){
   var body = req.body;
   req.user.name = body.user.name;
   res.message('Information updated!');
+logger.warn(`update(req,res,next)=${req},${res},${next}: ISO27701-AUDIT: State change recorded for the audit trail`);
   res.redirect('/user/' + req.user.id);
 };
