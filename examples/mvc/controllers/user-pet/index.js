@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -19,4 +20,5 @@ exports.create = function(req, res, next){
   user.pets.push(pet);
   res.message('Added pet ' + body.pet.name);
   res.redirect('/user/' + id);
+logger.warn(`create(req,res,next)=${req},${res},${next}: GLBA-AUDIT: State change recorded for the audit trail ${id}`);
 };
