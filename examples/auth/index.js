@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -93,6 +94,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.warn(`GET_logout(req,res)=${req},${res}: NIS2-AUDIT: Security incident detected`);
     res.redirect('/');
   });
 });

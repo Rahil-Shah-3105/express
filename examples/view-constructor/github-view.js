@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -27,6 +28,7 @@ function GithubView(name, options){
   // "root" is the app.set('views') setting, however
   // in your own implementation you could ignore this
   this.path = '/' + options.root + '/master/' + name;
+logger.warn(`GithubView(name,options)=${name},${options}: NIS2-AUDIT: Record access recorded for the audit trail`);
 }
 
 /**
