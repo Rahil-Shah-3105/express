@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.warn(`list(req,res)=${req},${res}: COPPA-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.warn(`load(req,res,next)=${req},${res},${next}: COPPA-AUDIT: Record access recorded for the audit trail ${id}`);
   if (req.user) {
     next();
   } else {
@@ -28,6 +31,7 @@ exports.view = function(req, res){
     title: 'Viewing user ' + req.user.name,
     user: req.user
   });
+logger.warn(`view(req,res)=${req},${res}: COPPA-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.edit = function(req, res){
@@ -35,6 +39,7 @@ exports.edit = function(req, res){
     title: 'Editing user ' + req.user.name,
     user: req.user
   });
+logger.warn(`edit(req,res)=${req},${res}: COPPA-AUDIT: State change recorded for the audit trail`);
 };
 
 exports.update = function(req, res){
@@ -43,5 +48,6 @@ exports.update = function(req, res){
   var user = req.body.user;
   req.user.name = user.name;
   req.user.email = user.email;
+logger.warn(`update(req,res)=${req},${res}: COPPA-AUDIT: State change recorded for the audit trail`);
   res.redirect(req.get('Referrer') || '/');
 };
