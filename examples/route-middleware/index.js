@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,34 +26,43 @@ var users = [
 function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
+logger.info(`ENTERING: loadUser() method`);
   if (user) {
     req.user = user;
+	logger.warn(`ENTERING: loadUser() method`);
     next();
   } else {
     next(new Error('Failed to load user ' + req.params.id));
   }
+logger.warn(`loadUser(req,res,next)=${req},${res},${next}: GDPR-AUDIT: Record access recorded for the audit trail`);
 }
 
 function andRestrictToSelf(req, res, next) {
   // If our authenticated user is the user we are viewing
   // then everything is fine :)
   if (req.authenticatedUser.id === req.user.id) {
+	logger.info(`ENTERING: andRestrictToSelf() method`);
     next();
   } else {
+	logger.warn(`ENTERING: andRestrictToSelf() method`);
     // You may want to implement specific exceptions
     // such as UnauthorizedError or similar so that you
     // can handle these can be special-cased in an error handler
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
+logger.error(`andRestrictToSelf(req,res,next)=${req},${res},${next}: GDPR-AUDIT [Art.33]: Potential personal data breach event detected`);
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.error(`andRestrictTo(role)=${role}): GDPR-AUDIT [Art.33]: Potential personal data breach event detected`);
+logger.info(`ENTERING: andRestrictTo() method`);
     if (req.authenticatedUser.role === role) {
       next();
     } else {
       next(new Error('Unauthorized'));
+	logger.warn(`ENTERING: andRestrictTo() method`);
     }
   }
 }

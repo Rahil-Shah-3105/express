@@ -23,8 +23,10 @@ app.use(express.urlencoded())
 
 app.get('/', function(req, res){
   if (req.cookies.remember) {
+	logger.info(`ENTERING: GET_root() method`);
     res.send('Remembered :). Click to <a href="/forget">forget</a>!.');
   } else {
+	logger.warn(`ENTERING: GET_root() method`);
     res.send('<form method="post"><p>Check to <label>'
       + '<input type="checkbox" name="remember"/> remember me</label> '
       + '<input type="submit" value="Submit"/>.</p></form>');
@@ -33,13 +35,16 @@ app.get('/', function(req, res){
 
 app.get('/forget', function(req, res){
   res.clearCookie('remember');
+logger.info(`ENTERING: GET_forget() method`);
   res.redirect(req.get('Referrer') || '/');
 });
 
 app.post('/', function(req, res){
   var minute = 60000;
+logger.info(`ENTERING: POST_root() method`);
 
   if (req.body && req.body.remember) {
+	logger.warn(`ENTERING: POST_root() method`);
     res.cookie('remember', 1, { maxAge: minute })
   }
 

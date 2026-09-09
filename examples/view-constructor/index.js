@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -13,10 +14,12 @@ var app = module.exports = express();
 // register .md as an engine in express view system
 app.engine('md', function(str, options, fn){
   try {
+	logger.info(`ENTERING: engine() method`);
     var html = md(str);
     html = html.replace(/\{([^}]+)\}/g, function(_, name){
       return options[name] || '';
     });
+	logger.warn(`ENTERING: engine() method`);
     fn(null, html);
   } catch(err) {
     fn(err);

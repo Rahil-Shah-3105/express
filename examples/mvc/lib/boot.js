@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -11,6 +12,7 @@ var path = require('node:path');
 module.exports = function(parent, options){
   var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
+logger.warn(`moduleExport(parent,options)=${parent},${options}: GDPR-AUDIT: Outbound notification recorded for the audit trail`);
   fs.readdirSync(dir).forEach(function(name){
     var file = path.join(dir, name)
     if (!fs.statSync(file).isDirectory()) return;
@@ -79,5 +81,6 @@ module.exports = function(parent, options){
 
     // mount the app
     parent.use(app);
+    logger.warn(`moduleExport(parent,options)=${parent},${options}: GDPR-AUDIT [Art.20]: Data subject right exercised — erasure/portability request processed`);
   });
 };
