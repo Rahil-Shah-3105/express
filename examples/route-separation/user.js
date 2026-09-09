@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,6 +10,7 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.warn(`list(req,res)=${req},${res}: CCPA-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.load = function(req, res, next){
@@ -21,6 +23,7 @@ exports.load = function(req, res, next){
     err.status = 404;
     next(err);
   }
+logger.warn(`load(req,res,next)=${req},${res},${next}: CCPA-AUDIT: Record access recorded for the audit trail ${id}`);
 };
 
 exports.view = function(req, res){
@@ -28,6 +31,7 @@ exports.view = function(req, res){
     title: 'Viewing user ' + req.user.name,
     user: req.user
   });
+logger.warn(`view(req,res)=${req},${res}: CCPA-AUDIT: Record access recorded for the audit trail`);
 };
 
 exports.edit = function(req, res){
@@ -44,4 +48,5 @@ exports.update = function(req, res){
   req.user.name = user.name;
   req.user.email = user.email;
   res.redirect(req.get('Referrer') || '/');
+  logger.warn(`update(req,res)=${req},${res}: CCPA-AUDIT: State change recorded for the audit trail`);
 };
