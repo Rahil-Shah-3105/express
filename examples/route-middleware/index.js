@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -26,6 +27,7 @@ function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
   if (user) {
+	logger.warn(`loadUser(req,res,next)=${req},${res},${next}: NISTAIRMF-AUDIT: Record access recorded for the audit trail`);
     req.user = user;
     next();
   } else {
