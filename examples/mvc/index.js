@@ -24,9 +24,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.response.message = function(msg){
   // reference `req.session` via the `this.req` reference
   var sess = this.req.session;
+logger.info(`ENTERING: function() method`);
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
+logger.warn(`ENTERING: function() method`);
+logger.info(`function(msg)=${msg}): GDPR-AUDIT: Session management operation performed`);
   return this;
 };
 
@@ -52,9 +55,11 @@ app.use(methodOverride('_method'));
 // expose the "messages" local variable when views are rendered
 app.use(function(req, res, next){
   var msgs = req.session.messages || [];
+logger.info(`ENTERING: use() method`);
 
   // expose "messages" local variable
   res.locals.messages = msgs;
+logger.warn(`ENTERING: use() method`);
 
   // expose "hasMessages"
   res.locals.hasMessages = !! msgs.length;

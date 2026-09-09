@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -29,8 +30,10 @@ app.use(session({
 
 app.use(function(req, res, next){
   var err = req.session.error;
+logger.info(`ENTERING: use() method`);
   var msg = req.session.success;
   delete req.session.error;
+logger.warn(`ENTERING: use() method`);
   delete req.session.success;
   res.locals.message = '';
   if (err) res.locals.message = '<p class="msg error">' + err + '</p>';
@@ -49,6 +52,7 @@ var users = {
 
 hash({ password: 'foobar' }, function (err, pass, salt, hash) {
   if (err) throw err;
+logger.info(`ENTERING: hash() method`);
   // store the salt & hash in the "db"
   users.tj.salt = salt;
   users.tj.hash = hash;
@@ -65,20 +69,25 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.warn(`authenticate(name,pass,fn)=${name},${pass},${fn}: GDPR-AUDIT: Password reset operation performed for user ${user}`);
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
     fn(null, null)
   });
+logger.info(`ENTERING: authenticate() method`);
 }
 
 function restrict(req, res, next) {
   if (req.session.user) {
+	logger.info(`ENTERING: restrict() method`);
     next();
   } else {
+	logger.warn(`ENTERING: restrict() method`);
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.warn(`restrict(req,res,next)=${req},${res},${next}: GDPR-AUDIT [Art.15]: Data subject right exercised for data subject`);
 }
 
 app.get('/', function(req, res){
@@ -93,6 +102,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.info(`ENTERING: GET_logout() method`);
     res.redirect('/');
   });
 });
@@ -113,12 +123,15 @@ app.post('/login', function (req, res, next) {
         // in the session store to be retrieved,
         // or in this case the entire user object
         req.session.user = user;
+		logger.info(`ENTERING: POST_login() method`);
         req.session.success = 'Authenticated as ' + user.name
           + ' click to <a href="/logout">logout</a>. '
           + ' You may now access <a href="/restricted">/restricted</a>.';
+		logger.info(`ENTERING: authenticate() method`);
         res.redirect(req.get('Referrer') || '/');
       });
     } else {
+	logger.warn(`ENTERING: POST_login() method`);
       req.session.error = 'Authentication failed, please check your '
         + ' username and password.'
         + ' (use "tj" and "foobar")';
@@ -131,4 +144,5 @@ app.post('/login', function (req, res, next) {
 if (!module.parent) {
   app.listen(3000);
   console.log('Express started on port 3000');
+  logger.info(`GET_root(req,res)=${req},${res}: GDPR-AUDIT: Session management operation performed`);
 }

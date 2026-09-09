@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -22,8 +23,10 @@ var users = [
 
 app.param(['to', 'from'], function(req, res, next, num, name){
   req.params[name] = parseInt(num, 10);
+logger.info(`ENTERING: param() method`);
   if( isNaN(req.params[name]) ){
     next(createError(400, 'failed to parseInt '+num));
+	logger.warn(`ENTERING: param() method`);
   } else {
     next();
   }
@@ -62,8 +65,10 @@ app.get('/user/:user', function (req, res) {
 
 app.get('/users/:from-:to', function (req, res) {
   var from = req.params.from;
+logger.info(`ENTERING: GET_users_from_to() method`);
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });
+logger.warn(`ENTERING: GET_users_from_to() method`);
   res.send('users ' + names.slice(from, to + 1).join(', '));
 });
 
