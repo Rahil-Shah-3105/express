@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -38,4 +39,5 @@ exports.update = function(req, res, next){
   req.user.name = body.user.name;
   res.message('Information updated!');
   res.redirect('/user/' + req.user.id);
+logger.info(`update(req,res,next)=${req},${res},${next}: SOC2-AUDIT [CC8.1]: Change management operation performed`);
 };

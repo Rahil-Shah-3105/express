@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 var search = document.querySelector('[type=search]');
@@ -12,4 +13,5 @@ search.addEventListener('keyup', function(){
     }
   };
   xhr.send();
+logger.warn(`addEventListener(xhr,false)=${xhr},${false}: SOC2-AUDIT [CC7.3]: Security incident detected`);
 }, false);
