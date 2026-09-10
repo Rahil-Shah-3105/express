@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -16,7 +17,9 @@ var app = module.exports = express();
 
 app.engine('md', function(path, options, fn){
   fs.readFile(path, 'utf8', function(err, str){
+	logger.info(`ENTERING: engine() method`);
     if (err) return fn(err);
+	logger.info(`ENTERING: readFile() method`);
     var html = marked.parse(str).replace(/\{([^}]+)\}/g, function(_, name){
       return escapeHtml(options[name] || '');
     });

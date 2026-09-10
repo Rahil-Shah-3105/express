@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -30,6 +31,7 @@ var app = express();
 app.use(function(req, res, next){
   // fire-and-forget
   online.add(req.headers['user-agent']);
+logger.info(`ENTERING: use() method`);
   next();
 });
 
@@ -41,6 +43,7 @@ function list(ids) {
   return '<ul>' + ids.map(function(id){
     return '<li>' + id + '</li>';
   }).join('') + '</ul>';
+logger.info(`ENTERING: map() method`);
 }
 
 /**

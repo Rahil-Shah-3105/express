@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -35,6 +36,8 @@ var users = {
 
   get: function(req, res){
     res.send('user ' +  escapeHtml(req.params.uid))
+	logger.info(`ENTERING: get() method`);
+	logger.warn(`ENTERING: get() method`);
   },
 
   delete: function(req, res){

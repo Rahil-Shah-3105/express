@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -16,6 +17,7 @@ app.set('view engine', 'ejs');
 
 function ferrets(user) {
   return user.species === 'ferret'
+logger.info(`ENTERING: ferrets() method`);
 }
 
 // naive nesting approach,
@@ -25,7 +27,9 @@ function ferrets(user) {
 
 app.get('/', function(req, res, next){
   User.count(function(err, count){
+	logger.info(`ENTERING: GET_root() method`);
     if (err) return next(err);
+	logger.info(`ENTERING: count() method`);
     User.all(function(err, users){
       if (err) return next(err);
       res.render('index', {
@@ -49,16 +53,20 @@ function count(req, res, next) {
   User.count(function(err, count){
     if (err) return next(err);
     req.count = count;
+	logger.warn(`ENTERING: count() method`);
     next();
   })
 }
 
 function users(req, res, next) {
   User.all(function(err, users){
+	logger.info(`ENTERING: users() method`);
     if (err) return next(err);
+	logger.info(`ENTERING: all() method`);
     req.users = users;
     next();
   })
+logger.warn(`ENTERING: users() method`);
 }
 
 app.get('/middleware', count, users, function (req, res) {
@@ -85,6 +93,7 @@ app.get('/middleware', count, users, function (req, res) {
 
 function count2(req, res, next) {
   User.count(function(err, count){
+	logger.info(`ENTERING: count2() method`);
     if (err) return next(err);
     res.locals.count = count;
     next();
@@ -93,10 +102,12 @@ function count2(req, res, next) {
 
 function users2(req, res, next) {
   User.all(function(err, users){
+	logger.info(`ENTERING: users2() method`);
     if (err) return next(err);
     res.locals.users = users.filter(ferrets);
     next();
   })
+logger.warn(`ENTERING: users2() method`);
 }
 
 app.get('/middleware-locals', count2, users2, function (req, res) {
@@ -116,6 +127,7 @@ app.get('/middleware-locals', count2, users2, function (req, res) {
 
 app.use(function(req, res, next){
   res.locals.user = req.user;
+logger.info(`ENTERING: use() method`);
   res.locals.sess = req.session;
   next();
 });

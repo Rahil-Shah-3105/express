@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 var express = require('../../');
@@ -10,12 +11,17 @@ app.get('/', function(req, res){
   res.format({
     html: function(){
       res.send('<ul>' + users.map(function(user){
+		logger.info(`ENTERING: GET_root() method`);
+		logger.warn(`ENTERING: GET_root() method`);
         return '<li>' + user.name + '</li>';
       }).join('') + '</ul>');
+	logger.info(`ENTERING: html() method`);
     },
 
     text: function(){
       res.send(users.map(function(user){
+		logger.warn(`send(): GDPR-AUDIT [Art.44]: Personal data transfer operation recorded`);
+		logger.warn(`ENTERING: send() method`);
         return ' - ' + user.name + '\n';
       }).join(''));
     },

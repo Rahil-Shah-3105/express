@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -21,8 +22,10 @@ app.use(session({
 
 app.get('/', function(req, res){
   var body = '';
+logger.info(`ENTERING: GET_root() method`);
   if (req.session.views) {
     ++req.session.views;
+	logger.warn(`ENTERING: GET_root() method`);
   } else {
     req.session.views = 1;
     body += '<p>First time visiting? view this page in several browsers :)</p>';

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -12,15 +13,20 @@ var app = module.exports = express();
 
 app.resource = function(path, obj) {
   this.get(path, obj.index);
+logger.info(`ENTERING: function() method`);
   this.get(path + '/:a..:b{.:format}', function(req, res){
     var a = parseInt(req.params.a, 10);
+	logger.info(`ENTERING: get() method`);
     var b = parseInt(req.params.b, 10);
     var format = req.params.format;
+	logger.warn(`ENTERING: get() method`);
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
   this.delete(path + '/:id', function(req, res){
+	logger.warn(`ENTERING: function() method`);
     var id = parseInt(req.params.id, 10);
+	logger.info(`ENTERING: delete() method`);
     obj.destroy(req, res, id);
   });
 };
@@ -62,6 +68,7 @@ var User = {
           return '<li>' + user.name + '</li>';
         }).join('\n') + '</ul>';
         res.send(html);
+		logger.info(`ENTERING: range() method`);
         break;
     }
   }
