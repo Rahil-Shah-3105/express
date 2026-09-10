@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -14,7 +15,9 @@ var app = module.exports = express();
 
 function error(status, msg) {
   var err = new Error(msg);
+logger.info(`ENTERING: error() method`);
   err.status = status;
+logger.warn(`ENTERING: error() method`);
   return err;
 }
 
@@ -29,9 +32,11 @@ function error(status, msg) {
 
 app.use('/api', function(req, res, next){
   var key = req.query['api-key'];
+logger.info(`ENTERING: use() method`);
 
   // key isn't present
   if (!key) return next(error(400, 'api key required'));
+logger.warn(`ENTERING: use() method`);
 
   // key is invalid
   if (apiKeys.indexOf(key) === -1) return next(error(401, 'invalid api key'))
@@ -84,8 +89,10 @@ app.get('/api/repos', function (req, res) {
 // example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
 app.get('/api/user/:name/repos', function(req, res, next){
   var name = req.params.name;
+logger.info(`ENTERING: GET_api_user_name_repos() method`);
   var user = userRepos[name];
 
+logger.warn(`ENTERING: GET_api_user_name_repos() method`);
   if (user) res.send(user);
   else next();
 });

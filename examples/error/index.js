@@ -37,6 +37,7 @@ app.get('/next', function(req, res, next){
   // next() can be called inside an async operation,
   // in real life it can be a DB read or HTTP request.
   process.nextTick(function(){
+	logger.info(`ENTERING: GET_next() method`);
     next(new Error('oh no!'));
   });
 });

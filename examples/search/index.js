@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -28,9 +29,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 async function initializeRedis() {
   try {
+	logger.info(`ENTERING: initializeRedis() method`);
     // connect to Redis
 
     await db.connect();
+	logger.warn(`ENTERING: initializeRedis() method`);
 
     // populate search
 
@@ -51,6 +54,7 @@ async function initializeRedis() {
 
 app.get('/search/{:query}', function (req, res, next) {
   var query = req.params.query || '';
+logger.info(`ENTERING: GET_search_query() method`);
   db.sMembers(query)
     .then((vals) => res.send(vals))
     .catch((err) => {

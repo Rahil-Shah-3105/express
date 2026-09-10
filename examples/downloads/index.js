@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,10 +26,13 @@ app.get('/', function(req, res){
 // but here we name it :file
 app.get('/files/*file', function (req, res, next) {
   res.download(req.params.file.join('/'), { root: FILES_DIR }, function (err) {
+	logger.info(`ENTERING: GET_files_file() method`);
     if (!err) return; // file sent
+	logger.info(`ENTERING: function() method`);
     if (err.status !== 404) return next(err); // non-404 error
     // file for download not found
     res.statusCode = 404;
+	logger.warn(`ENTERING: function() method`);
     res.send('Cant find that file, sorry!');
   });
 });
