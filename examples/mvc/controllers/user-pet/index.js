@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -13,6 +14,7 @@ exports.create = function(req, res, next){
   var id = req.params.user_id;
   var user = db.users[id];
   var body = req.body;
+logger.info(`create(req=${req}, res=${res}, next=${next}): FEDRAMP-AUDIT [RA-5]: Vulnerability management — State change recorded for the audit trail ${id}`, { "event.action": "create" });
   if (!user) return next('route');
   var pet = { name: body.pet.name };
   pet.id = db.pets.push(pet) - 1;

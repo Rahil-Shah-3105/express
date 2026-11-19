@@ -27,6 +27,7 @@ app.response.message = function(msg){
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
+logger.info(`message(msg=${msg}): FEDRAMP-AUDIT: Crypto protection — Session management operation performed`, { "event.action": "message", "logrite.msg": msg });
   return this;
 };
 
