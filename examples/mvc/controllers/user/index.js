@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,10 +24,12 @@ exports.before = function(req, res, next){
 
 exports.list = function(req, res, next){
   res.render('list', { users: db.users });
+logger.info(`list(req=${req}, res=${res}, next=${next}): CJIS-AUDIT: Audit coverage — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.edit = function(req, res, next){
   res.render('edit', { user: req.user });
+logger.info(`edit(req=${req}, res=${res}, next=${next}): CJIS-AUDIT: Audit coverage — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.show = function(req, res, next){
@@ -35,6 +38,7 @@ exports.show = function(req, res, next){
 
 exports.update = function(req, res, next){
   var body = req.body;
+logger.info(`update(req=${req}, res=${res}, next=${next}): CJIS-AUDIT [§5.12]: Personnel security — State change recorded for the audit trail`, { "event.action": "update" });
   req.user.name = body.user.name;
   res.message('Information updated!');
   res.redirect('/user/' + req.user.id);
