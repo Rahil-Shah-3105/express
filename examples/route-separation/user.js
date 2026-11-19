@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.info(`list(req=${req}, res=${res}): SOX-AUDIT: Audit log tamper — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.info(`load(req=${req}, res=${res}, next=${next}): SOX-AUDIT: Change management (PCAOB AS 2201) — Record access recorded for the audit trail ${id}`, { "event.action": "load" });
   if (req.user) {
     next();
   } else {

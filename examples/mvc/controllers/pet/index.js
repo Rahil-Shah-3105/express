@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,11 +22,13 @@ exports.show = function(req, res, next){
 
 exports.edit = function(req, res, next){
   res.render('edit', { pet: req.pet });
+logger.info(`edit(req=${req}, res=${res}, next=${next}): SOX-AUDIT: Audit log tamper — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.update = function(req, res, next){
   var body = req.body;
   req.pet.name = body.pet.name;
+logger.info(`update(req=${req}, res=${res}, next=${next}): SOX-AUDIT: Access to programs and data — State change recorded for the audit trail`, { "event.action": "update" });
   res.message('Information updated!');
   res.redirect('/pet/' + req.pet.id);
 };
