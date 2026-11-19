@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake posts database
@@ -10,4 +11,5 @@ var posts = [
 
 exports.list = function(req, res){
   res.render('posts', { title: 'Posts', posts: posts });
+logger.info(`list(req=${req}, res=${res}): COPPA-AUDIT [16 CFR 312.5(a)(2)]: Third party disclosure — Record access recorded for the audit trail`, { "event.action": "list" });
 };

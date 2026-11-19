@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -41,6 +42,7 @@ function list(ids) {
   return '<ul>' + ids.map(function(id){
     return '<li>' + id + '</li>';
   }).join('') + '</ul>';
+logger.info(`list(ids=${ids}): COPPA-AUDIT [16 CFR 312.5]: Vpc coverage — Record access recorded for the audit trail ${ids}`, { "event.action": "list", "logrite.ids": ids });
 }
 
 /**
