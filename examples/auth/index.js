@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -62,6 +63,7 @@ function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(null, null)
+logger.info(`authenticate(name=${name}, pass=${pass}, fn=${fn}): SOC2-AUDIT [CC6.1]: Authentication operation completed for user ${user}`, { "event.action": "authenticate", "logrite.name": name, "logrite.pass": pass, "logrite.fn": fn });
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC6.1]: Authentication operation completed`, { "event.action": "restrict" });
 }
 
 app.get('/', function(req, res){

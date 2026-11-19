@@ -24,6 +24,7 @@ function error(err, req, res, next) {
   // respond with 500 "Internal Server Error".
   res.status(500);
   res.send('Internal Server Error');
+logger.info(`error(err=${err}, req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC7.1]: System operation completed`, { "event.action": "error", "logrite.err": err });
 }
 
 app.get('/', function () {

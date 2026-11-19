@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,6 +26,7 @@ var users = [
 function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
+logger.info(`loadUser(req=${req}, res=${res}, next=${next}): M2614-AUDIT: Log Management / data protection — Record access recorded for the audit trail`, { "event.action": "loadUser" });
   if (user) {
     req.user = user;
     next();
@@ -39,6 +41,7 @@ function andRestrictToSelf(req, res, next) {
   if (req.authenticatedUser.id === req.user.id) {
     next();
   } else {
+	logger.info(`andRestrictToSelf(req=${req}, res=${res}, next=${next}): M2614-AUDIT: Outcome 1: user attribution — Authentication operation completed`, { "event.action": "andRestrictToSelf" });
     // You may want to implement specific exceptions
     // such as UnauthorizedError or similar so that you
     // can handle these can be special-cased in an error handler

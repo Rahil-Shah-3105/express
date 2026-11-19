@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,6 +24,7 @@ app.resource = function(path, obj) {
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
   });
+logger.info(`resource(path=${path}, obj=${obj}): SOC2-AUDIT [CC7.2]: System operation completed`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
 };
 
 // Fake records
