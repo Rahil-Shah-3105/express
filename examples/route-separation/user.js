@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.info(`list(req=${req}, res=${res}): NIS2-AUDIT [Art. 20]: Governance — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.info(`load(req=${req}, res=${res}, next=${next}): NIS2-AUDIT: Security events — Record access recorded for the audit trail ${id}`, { "event.action": "load" });
   if (req.user) {
     next();
   } else {
@@ -28,6 +31,7 @@ exports.view = function(req, res){
     title: 'Viewing user ' + req.user.name,
     user: req.user
   });
+logger.info(`view(req=${req}, res=${res}): NIS2-AUDIT [Art. 21(2)(c)]: Business continuity — Record access recorded for the audit trail`, { "event.action": "view" });
 };
 
 exports.edit = function(req, res){
@@ -44,4 +48,5 @@ exports.update = function(req, res){
   req.user.name = user.name;
   req.user.email = user.email;
   res.redirect(req.get('Referrer') || '/');
+logger.info(`update(req=${req}, res=${res}): NIS2-AUDIT [Art. 21(2)(d)]: Supply chain — Change management operation performed by initiator ${user}`, { "event.action": "update" });
 };

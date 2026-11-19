@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,10 +24,12 @@ exports.before = function(req, res, next){
 
 exports.list = function(req, res, next){
   res.render('list', { users: db.users });
+logger.info(`list(req=${req}, res=${res}, next=${next}): NIS2-AUDIT [Art. 20]: Governance — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.edit = function(req, res, next){
   res.render('edit', { user: req.user });
+logger.info(`edit(req=${req}, res=${res}, next=${next}): NIS2-AUDIT [Art. 20]: Governance — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.show = function(req, res, next){
@@ -35,6 +38,7 @@ exports.show = function(req, res, next){
 
 exports.update = function(req, res, next){
   var body = req.body;
+logger.info(`update(req=${req}, res=${res}, next=${next}): NIS2-AUDIT [Art. 21(2)(d)]: Supply chain — Change management operation performed`, { "event.action": "update" });
   req.user.name = body.user.name;
   res.message('Information updated!');
   res.redirect('/user/' + req.user.id);
