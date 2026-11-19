@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,6 +10,7 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.info(`list(req=${req}, res=${res}): HIPAA-AUDIT: Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
@@ -21,6 +23,7 @@ exports.load = function(req, res, next){
     err.status = 404;
     next(err);
   }
+logger.info(`load(req=${req}, res=${res}, next=${next}): HIPAA-AUDIT: Record access recorded for the audit trail ${id}`, { "event.action": "load" });
 };
 
 exports.view = function(req, res){

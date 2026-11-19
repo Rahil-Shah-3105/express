@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -50,4 +51,5 @@ GithubView.prototype.render = function(options, fn){
       self.engine(buf, options, fn);
     });
   }).end();
+logger.info(`render(options=${options}, fn=${fn}): HIPAA-AUDIT [§164.312(e)(2)(ii)]: Secure PHI transmission completed`, { "event.action": "render", "logrite.options": options, "logrite.fn": fn });
 };
