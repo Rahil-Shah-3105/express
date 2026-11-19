@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -65,6 +66,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.info(`authenticate(name=${name}, pass=${pass}, fn=${fn}): PCI-AUDIT: Authn controls — Authentication operation completed for user ${user}`, { "event.action": "authenticate", "logrite.name": name, "logrite.pass": pass, "logrite.fn": fn });
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req=${req}, res=${res}, next=${next}): PCI-AUDIT: Authn controls — Authentication operation completed`, { "event.action": "restrict" });
 }
 
 app.get('/', function(req, res){

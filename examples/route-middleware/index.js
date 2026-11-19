@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,6 +26,7 @@ var users = [
 function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
+logger.info(`loadUser(req=${req}, res=${res}, next=${next}): PCI-AUDIT: Script integrity — Record access recorded for the audit trail`, { "event.action": "loadUser" });
   if (user) {
     req.user = user;
     next();
@@ -45,10 +47,12 @@ function andRestrictToSelf(req, res, next) {
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
+logger.info(`andRestrictToSelf(req=${req}, res=${res}, next=${next}): PCI-AUDIT: Authn controls — Authentication operation completed`, { "event.action": "andRestrictToSelf" });
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.info(`andRestrictTo(role=${role}): PCI-AUDIT: Authn controls — Authentication operation completed`, { "event.action": "andRestrictTo", "logrite.role": role });
     if (req.authenticatedUser.role === role) {
       next();
     } else {
