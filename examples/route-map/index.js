@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,10 +32,12 @@ app.map = function(a, route){
 var users = {
   list: function(req, res){
     res.send('user list');
+	logger.info(`list(req=${req}, res=${res}): GEN-AUDIT: Security hygiene — Record access recorded for the audit trail`, { "event.action": "list" });
   },
 
   get: function(req, res){
     res.send('user ' +  escapeHtml(req.params.uid))
+	logger.info(`get(req=${req}, res=${res}): GEN-AUDIT: Security hygiene — Record access recorded for the audit trail`, { "event.action": "get" });
   },
 
   delete: function(req, res){

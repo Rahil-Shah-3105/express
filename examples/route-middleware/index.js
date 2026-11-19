@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ function loadUser(req, res, next) {
   } else {
     next(new Error('Failed to load user ' + req.params.id));
   }
+logger.info(`loadUser(req=${req}, res=${res}, next=${next}): GEN-AUDIT: Security hygiene — Record access recorded for the audit trail`, { "event.action": "loadUser" });
 }
 
 function andRestrictToSelf(req, res, next) {
