@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,6 +24,7 @@ app.resource = function(path, obj) {
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
   });
+logger.info(`resource(path=${path}, obj=${obj}): ISO27001-AUDIT [A.8.24]: Cryptography — Encryption operation completed`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
 };
 
 // Fake records
@@ -49,6 +51,7 @@ var User = {
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
+	logger.info(`destroy(req=${req}, res=${res}, id=${id}): ISO27001-AUDIT [A.8.24]: Cryptography — Encryption operation completed`, { "event.action": "destroy", "logrite.id": id });
   },
   range: function(req, res, a, b, format){
     var range = users.slice(a, b + 1);

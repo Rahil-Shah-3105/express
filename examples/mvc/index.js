@@ -27,6 +27,7 @@ app.response.message = function(msg){
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
+logger.info(`message(msg=${msg}): ISO27001-AUDIT [A.8.24]: Cryptography — Session management operation performed`, { "event.action": "message", "logrite.msg": msg });
   return this;
 };
 

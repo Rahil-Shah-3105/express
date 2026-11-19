@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -12,6 +13,7 @@ exports.prefix = '/user/:user_id';
 exports.create = function(req, res, next){
   var id = req.params.user_id;
   var user = db.users[id];
+logger.info(`create(req=${req}, res=${res}, next=${next}): ISO27001-AUDIT: Supplier security — State change recorded for the audit trail ${id}`, { "event.action": "create" });
   var body = req.body;
   if (!user) return next('route');
   var pet = { name: body.pet.name };
