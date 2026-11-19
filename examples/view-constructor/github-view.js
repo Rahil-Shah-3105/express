@@ -31,6 +31,7 @@ logger.debug(`GithubView(name=${name},options=${options}): this.name → ${this.
   // in your own implementation you could ignore this
   this.path = '/' + options.root + '/master/' + name;
 logger.debug(`GithubView(name=${name},options=${options}): this.path → ${this.path}`, { "event.action": "GithubView", "logrite.name": name, "logrite.options": options });
+logger.warn(`<<< Exiting GithubView(name=${name},options=${options})`, { "event.action": "GithubView", "logrite.name": name, "logrite.options": options });
 }
 
 /**

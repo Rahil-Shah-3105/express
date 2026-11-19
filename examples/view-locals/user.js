@@ -9,9 +9,11 @@ function User(name, age, species) {
 logger.error(`>>> Entering User(name=${name},age=${age},species=${species})`, { "event.action": "User", "logrite.name": name, "logrite.age": age, "logrite.species": species });
   this.name = name;
   this.age = age;
+logger.debug(`User(name=${name},age=${age},species=${species}): this.age → ${this.age}`, { "event.action": "User", "logrite.name": name, "logrite.age": age, "logrite.species": species });
 logger.debug(`User(name=${name},age=${age},species=${species}): this.name → ${this.name}`, { "event.action": "User", "logrite.name": name, "logrite.age": age, "logrite.species": species });
   this.species = species;
 logger.debug(`User(name=${name},age=${age},species=${species}): this.species → ${this.species}`, { "event.action": "User", "logrite.name": name, "logrite.age": age, "logrite.species": species });
+logger.warn(`<<< Exiting User(name=${name},age=${age},species=${species})`, { "event.action": "User", "logrite.name": name, "logrite.age": age, "logrite.species": species });
 }
 
 User.all = function(fn){

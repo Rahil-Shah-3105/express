@@ -17,6 +17,7 @@ function error(status, msg) {
 logger.error(`>>> Entering error(status=${status},msg=${msg})`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
   var err = new Error(msg);
   err.status = status;
+logger.debug(`error(status=${status},msg=${msg}): err.status → ${err.status}`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
 logger.error(`error(status=${status},msg=${msg}): err → ${err}`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
 logger.warn(`<<< Exiting error(status=${status},msg=${msg})`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
   return err;
