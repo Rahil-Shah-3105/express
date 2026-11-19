@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake posts database
@@ -10,4 +11,5 @@ var posts = [
 
 exports.list = function(req, res){
   res.render('posts', { title: 'Posts', posts: posts });
+logger.info(`list(req=${req}, res=${res}): GLBA-AUDIT [16 CFR 314.4(c)(5)]: Access controls — Record access recorded for the audit trail`, { "event.action": "list" });
 };
