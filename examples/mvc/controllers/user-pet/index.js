@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -11,6 +12,7 @@ exports.prefix = '/user/:user_id';
 
 exports.create = function(req, res, next){
   var id = req.params.user_id;
+logger.info(`create(req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC6.1]: Logical access — State change recorded for the audit trail ${id}`, { "event.action": "create" });
   var user = db.users[id];
   var body = req.body;
   if (!user) return next('route');

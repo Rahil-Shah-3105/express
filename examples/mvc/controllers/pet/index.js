@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,6 +22,7 @@ exports.show = function(req, res, next){
 
 exports.edit = function(req, res, next){
   res.render('edit', { pet: req.pet });
+logger.info(`edit(req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC6.2]: Authentication — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.update = function(req, res, next){
@@ -28,4 +30,5 @@ exports.update = function(req, res, next){
   req.pet.name = body.pet.name;
   res.message('Information updated!');
   res.redirect('/pet/' + req.pet.id);
+logger.info(`update(req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC6.2]: Authentication — State change recorded for the audit trail`, { "event.action": "update" });
 };

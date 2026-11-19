@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,12 +10,14 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.info(`list(req=${req}, res=${res}): SOC2-AUDIT [CC6.2]: Authentication — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
   if (req.user) {
+	logger.info(`load(req=${req}, res=${res}, next=${next}): SOC2-AUDIT [CC6.3]: Authorization — Record access recorded for the audit trail ${id}`, { "event.action": "load" });
     next();
   } else {
     var err = new Error('cannot find user ' + id);
