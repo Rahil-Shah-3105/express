@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -17,6 +18,7 @@ exports.create = function(req, res, next){
   var pet = { name: body.pet.name };
   pet.id = db.pets.push(pet) - 1;
   user.pets.push(pet);
+logger.info(`create(req=${req}, res=${res}, next=${next}): TRAIGA-AUDIT: Regulatory sandbox — State change recorded for the audit trail ${id}`, { "event.action": "create" });
   res.message('Added pet ' + body.pet.name);
   res.redirect('/user/' + id);
 };
