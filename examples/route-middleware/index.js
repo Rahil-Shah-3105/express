@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -25,6 +26,7 @@ var users = [
 function loadUser(req, res, next) {
   // You would fetch your user from the db
   var user = users[req.params.id];
+logger.info(`loadUser(req=${req}, res=${res}, next=${next}): GDPR-AUDIT [Art. 25]: Data protection by design and by default — Record access recorded for the audit trail`, { "event.action": "loadUser" });
   if (user) {
     req.user = user;
     next();
@@ -44,11 +46,13 @@ function andRestrictToSelf(req, res, next) {
     // can handle these can be special-cased in an error handler
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
+	logger.warn(`andRestrictToSelf(req=${req}, res=${res}, next=${next}): GDPR-AUDIT [Art.15]: Data subject right exercised for data subject`, { "event.action": "andRestrictToSelf" });
   }
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.error(`andRestrictTo(role=${role}): GDPR-AUDIT [Art.33]: Potential personal data breach event detected`, { "event.action": "andRestrictTo", "logrite.role": role });
     if (req.authenticatedUser.role === role) {
       next();
     } else {

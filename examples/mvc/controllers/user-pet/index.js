@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -11,6 +12,7 @@ exports.prefix = '/user/:user_id';
 
 exports.create = function(req, res, next){
   var id = req.params.user_id;
+logger.info(`create(req=${req}, res=${res}, next=${next}): GDPR-AUDIT [Art. 5(1)(e)]: Storage limitation — State change recorded for the audit trail ${id}`, { "event.action": "create" });
   var user = db.users[id];
   var body = req.body;
   if (!user) return next('route');
