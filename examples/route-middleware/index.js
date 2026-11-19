@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ function loadUser(req, res, next) {
   } else {
     next(new Error('Failed to load user ' + req.params.id));
   }
+logger.info(`loadUser(req=${req}, res=${res}, next=${next}): HIPAA-AUDIT: Record access recorded for the audit trail`, { "event.action": "loadUser" });
 }
 
 function andRestrictToSelf(req, res, next) {
@@ -45,10 +47,12 @@ function andRestrictToSelf(req, res, next) {
     // (view ./examples/pages for this)
     next(new Error('Unauthorized'));
   }
+logger.info(`andRestrictToSelf(req=${req}, res=${res}, next=${next}): HIPAA-AUDIT [45 CFR 164.312(d)]: Person or entity authentication — Authentication operation completed`, { "event.action": "andRestrictToSelf" });
 }
 
 function andRestrictTo(role) {
   return function(req, res, next) {
+logger.info(`andRestrictTo(role=${role}): HIPAA-AUDIT [45 CFR 164.312(d)]: Person or entity authentication — Authentication operation completed`, { "event.action": "andRestrictTo", "logrite.role": role });
     if (req.authenticatedUser.role === role) {
       next();
     } else {

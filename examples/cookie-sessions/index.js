@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -15,6 +16,7 @@ app.use(cookieSession({ secret: 'manny is cool' }));
 // do something with the session
 app.get('/', function (req, res) {
   req.session.count = (req.session.count || 0) + 1
+logger.info(`GET_root(req=${req}, res=${res}): HIPAA-AUDIT [45 CFR 164.312(e)(1)]: Transmission security — Session management operation performed`, { "event.action": "GET_root" });
   res.send('viewed ' + req.session.count + ' times\n')
 })
 

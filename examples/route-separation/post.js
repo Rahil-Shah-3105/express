@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake posts database
@@ -10,4 +11,5 @@ var posts = [
 
 exports.list = function(req, res){
   res.render('posts', { title: 'Posts', posts: posts });
+logger.info(`list(req=${req}, res=${res}): HIPAA-AUDIT: Record access recorded for the audit trail`, { "event.action": "list" });
 };
