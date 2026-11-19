@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -23,10 +24,12 @@ exports.before = function(req, res, next){
 
 exports.list = function(req, res, next){
   res.render('list', { users: db.users });
+logger.info(`list(req=${req}, res=${res}, next=${next}): NYCLL144-AUDIT: Aedt audit — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.edit = function(req, res, next){
   res.render('edit', { user: req.user });
+logger.info(`edit(req=${req}, res=${res}, next=${next}): NYCLL144-AUDIT: Aedt audit — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.show = function(req, res, next){
@@ -37,5 +40,6 @@ exports.update = function(req, res, next){
   var body = req.body;
   req.user.name = body.user.name;
   res.message('Information updated!');
+logger.info(`update(req=${req}, res=${res}, next=${next}): NYCLL144-AUDIT: Candidate notice — State change recorded for the audit trail`, { "event.action": "update" });
   res.redirect('/user/' + req.user.id);
 };
