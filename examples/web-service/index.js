@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -15,6 +16,7 @@ var app = module.exports = express();
 function error(status, msg) {
   var err = new Error(msg);
   err.status = status;
+logger.info(`error(status=${status}, msg=${msg}): SOC2-AUDIT [CC7.1]: System operation completed with status ${status}`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
   return err;
 }
 
