@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ app.map = function(a, route){
 var users = {
   list: function(req, res){
     res.send('user list');
+	logger.info(`list(req=${req}, res=${res}): CCPA-AUDIT: Admt decision — Record access recorded for the audit trail`, { "event.action": "list" });
   },
 
   get: function(req, res){
@@ -39,6 +41,7 @@ var users = {
 
   delete: function(req, res){
     res.send('delete users');
+	logger.info(`delete(req=${req}, res=${res}): CCPA-AUDIT: Consumer rights — State change recorded for the audit trail`, { "event.action": "delete" });
   }
 };
 
