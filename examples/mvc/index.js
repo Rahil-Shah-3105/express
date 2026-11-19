@@ -22,11 +22,14 @@ app.set('views', path.join(__dirname, 'views'));
 // define a custom res.message() method
 // which stores messages in the session
 app.response.message = function(msg){
+logger.error(`>>> Entering message(msg=${msg})`, { "event.action": "message", "logrite.msg": msg });
   // reference `req.session` via the `this.req` reference
   var sess = this.req.session;
+logger.debug(`message(msg=${msg}): sess.messages → ${sess.messages}`, { "event.action": "message", "logrite.msg": msg });
   // simply add the msg to an array for later
   sess.messages = sess.messages || [];
   sess.messages.push(msg);
+logger.warn(`<<< Exiting message(msg=${msg})`, { "event.action": "message", "logrite.msg": msg });
   return this;
 };
 

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -45,6 +46,7 @@ app.param('user', function(req, res, next, id){
  */
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.send('Visit /user/0 or /users/0-2');
 });
 
@@ -53,6 +55,7 @@ app.get('/', function(req, res){
  */
 
 app.get('/user/:user', function (req, res) {
+logger.error(`>>> Entering GET_user_user(req=${req},res=${res})`, { "event.action": "GET_user_user" });
   res.send('user ' + req.user.name);
 });
 
@@ -61,6 +64,7 @@ app.get('/user/:user', function (req, res) {
  */
 
 app.get('/users/:from-:to', function (req, res) {
+logger.error(`>>> Entering GET_users_from_to(req=${req},res=${res})`, { "event.action": "GET_users_from_to" });
   var from = req.params.from;
   var to = req.params.to;
   var names = users.map(function(user){ return user.name; });

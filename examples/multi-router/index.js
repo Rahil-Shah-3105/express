@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 var express = require('../..');
@@ -8,6 +9,7 @@ app.use('/api/v1', require('./controllers/api_v1'));
 app.use('/api/v2', require('./controllers/api_v2'));
 
 app.get('/', function(req, res) {
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.send('Hello from root route.')
 });
 

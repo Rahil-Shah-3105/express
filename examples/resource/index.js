@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -11,6 +12,7 @@ var app = module.exports = express();
 // Ad-hoc example resource method
 
 app.resource = function(path, obj) {
+logger.error(`>>> Entering resource(path=${path},obj=${obj})`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
   this.get(path, obj.index);
   this.get(path + '/:a..:b{.:format}', function(req, res){
     var a = parseInt(req.params.a, 10);
@@ -23,6 +25,7 @@ app.resource = function(path, obj) {
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
   });
+logger.warn(`<<< Exiting resource(path=${path},obj=${obj})`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
 };
 
 // Fake records
@@ -40,17 +43,24 @@ var users = [
 
 var User = {
   index: function(req, res){
+	logger.error(`>>> Entering index(req=${req},res=${res})`, { "event.action": "index" });
     res.send(users);
+	logger.warn(`<<< Exiting index(req=${req},res=${res})`, { "event.action": "index" });
   },
   show: function(req, res){
+	logger.error(`>>> Entering show(req=${req},res=${res})`, { "event.action": "show" });
     res.send(users[req.params.id] || { error: 'Cannot find user' });
+	logger.warn(`<<< Exiting show(req=${req},res=${res})`, { "event.action": "show" });
   },
   destroy: function(req, res, id){
+	logger.error(`>>> Entering destroy(req=${req},res=${res},id=${id})`, { "event.action": "destroy", "logrite.id": id });
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
+	logger.warn(`<<< Exiting destroy(req=${req},res=${res},id=${id})`, { "event.action": "destroy", "logrite.id": id });
   },
   range: function(req, res, a, b, format){
+	logger.error(`>>> Entering range(req=${req},res=${res},a=${a},b=${b},format=${format})`, { "event.action": "range", "logrite.a": a, "logrite.b": b, "logrite.format": format });
     var range = users.slice(a, b + 1);
     switch (format) {
       case 'json':
@@ -62,6 +72,8 @@ var User = {
           return '<li>' + user.name + '</li>';
         }).join('\n') + '</ul>';
         res.send(html);
+		logger.error(`range(req=${req},res=${res},a=${a},b=${b},format=${format}): html → ${html}`, { "event.action": "range", "logrite.a": a, "logrite.b": b, "logrite.format": format });
+		logger.warn(`<<< Exiting range(req=${req},res=${res},a=${a},b=${b},format=${format})`, { "event.action": "range", "logrite.a": a, "logrite.b": b, "logrite.format": format });
         break;
     }
   }
@@ -76,6 +88,7 @@ var User = {
 app.resource('/users', User);
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.send([
     '<h1>Examples:</h1> <ul>'
     , '<li>GET /users</li>'

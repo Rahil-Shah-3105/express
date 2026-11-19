@@ -22,21 +22,25 @@ app.use(cookieParser('my secret here'));
 app.use(express.urlencoded())
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   if (req.cookies.remember) {
     res.send('Remembered :). Click to <a href="/forget">forget</a>!.');
   } else {
     res.send('<form method="post"><p>Check to <label>'
       + '<input type="checkbox" name="remember"/> remember me</label> '
       + '<input type="submit" value="Submit"/>.</p></form>');
+	logger.warn(`<<< Exiting GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   }
 });
 
 app.get('/forget', function(req, res){
+logger.error(`>>> Entering GET_forget(req=${req},res=${res})`, { "event.action": "GET_forget" });
   res.clearCookie('remember');
   res.redirect(req.get('Referrer') || '/');
 });
 
 app.post('/', function(req, res){
+logger.error(`>>> Entering POST_root(req=${req},res=${res})`, { "event.action": "POST_root" });
   var minute = 60000;
 
   if (req.body && req.body.remember) {

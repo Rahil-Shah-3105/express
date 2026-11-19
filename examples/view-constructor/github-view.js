@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -21,12 +22,15 @@ module.exports = GithubView;
  */
 
 function GithubView(name, options){
+logger.error(`>>> Entering GithubView(name=${name},options=${options})`, { "event.action": "GithubView", "logrite.name": name, "logrite.options": options });
   this.name = name;
   options = options || {};
+logger.debug(`GithubView(name=${name},options=${options}): this.name → ${this.name}`, { "event.action": "GithubView", "logrite.name": name, "logrite.options": options });
   this.engine = options.engines[extname(name)];
   // "root" is the app.set('views') setting, however
   // in your own implementation you could ignore this
   this.path = '/' + options.root + '/master/' + name;
+logger.debug(`GithubView(name=${name},options=${options}): this.path → ${this.path}`, { "event.action": "GithubView", "logrite.name": name, "logrite.options": options });
 }
 
 /**

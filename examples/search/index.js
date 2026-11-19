@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -27,6 +28,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 
 async function initializeRedis() {
+logger.error('>>> Entering initializeRedis()', { "event.action": "initializeRedis" });
   try {
     // connect to Redis
 
@@ -41,6 +43,7 @@ async function initializeRedis() {
     await db.sAdd('cat', 'luna');
   } catch (err) {
     console.error('Error initializing Redis:', err);
+	logger.warn('<<< Exiting initializeRedis()', { "event.action": "initializeRedis" });
     process.exit(1);
   }
 }
@@ -50,6 +53,7 @@ async function initializeRedis() {
  */
 
 app.get('/search/{:query}', function (req, res, next) {
+logger.error(`>>> Entering GET_search_query(req=${req},res=${res},next=${next})`, { "event.action": "GET_search_query" });
   var query = req.params.query || '';
   db.sMembers(query)
     .then((vals) => res.send(vals))
@@ -67,6 +71,7 @@ app.get('/search/{:query}', function (req, res, next) {
  */
 
 app.get('/client.js', function(req, res){
+logger.error(`>>> Entering GET_client_js(req=${req},res=${res})`, { "event.action": "GET_client_js" });
   res.sendFile(path.join(__dirname, 'client.js'));
 });
 

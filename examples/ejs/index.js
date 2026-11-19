@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -43,6 +44,7 @@ var users = [
 ];
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.render('users', {
     users: users,
     title: "EJS example",

@@ -23,10 +23,12 @@ var main = express();
 if (!module.parent) main.use(logger('dev'));
 
 main.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.send('Hello from main app!');
 });
 
 main.get('/:sub', function(req, res){
+logger.error(`>>> Entering GET_sub(req=${req},res=${res})`, { "event.action": "GET_sub" });
   res.send('requested ' + req.params.sub);
 });
 

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -58,6 +59,7 @@ hash({ password: 'foobar' }, function (err, pass, salt, hash) {
 // Authenticate using our plain-object database of doom!
 
 function authenticate(name, pass, fn) {
+logger.error(`>>> Entering authenticate(name=${name},pass=${pass},fn=${fn})`, { "event.action": "authenticate", "logrite.name": name, "logrite.pass": pass, "logrite.fn": fn });
   if (!module.parent) console.log('authenticating %s:%s', name, pass);
   var user = users[name];
   // query the db for the given username
@@ -73,23 +75,28 @@ function authenticate(name, pass, fn) {
 }
 
 function restrict(req, res, next) {
+logger.error(`>>> Entering restrict(req=${req},res=${res},next=${next})`, { "event.action": "restrict" });
   if (req.session.user) {
     next();
   } else {
     req.session.error = 'Access denied!';
     res.redirect('/login');
+	logger.warn(`<<< Exiting restrict(req=${req},res=${res},next=${next})`, { "event.action": "restrict" });
   }
 }
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.redirect('/login');
 });
 
 app.get('/restricted', restrict, function(req, res){
+logger.error(`>>> Entering GET_restricted(req=${req},res=${res})`, { "event.action": "GET_restricted" });
   res.send('Wahoo! restricted area, click to <a href="/logout">logout</a>');
 });
 
 app.get('/logout', function(req, res){
+logger.error(`>>> Entering GET_logout(req=${req},res=${res})`, { "event.action": "GET_logout" });
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
@@ -98,10 +105,12 @@ app.get('/logout', function(req, res){
 });
 
 app.get('/login', function(req, res){
+logger.error(`>>> Entering GET_login(req=${req},res=${res})`, { "event.action": "GET_login" });
   res.render('login');
 });
 
 app.post('/login', function (req, res, next) {
+logger.error(`>>> Entering POST_login(req=${req},res=${res},next=${next})`, { "event.action": "POST_login" });
   if (!req.body) return res.sendStatus(400)
   authenticate(req.body.username, req.body.password, function(err, user){
     if (err) return next(err)
@@ -123,6 +132,7 @@ app.post('/login', function (req, res, next) {
         + ' username and password.'
         + ' (use "tj" and "foobar")';
       res.redirect('/login');
+	logger.warn(`<<< Exiting POST_login(req=${req},res=${res},next=${next})`, { "event.action": "POST_login" });
     }
   });
 });

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -13,8 +14,11 @@ var app = module.exports = express();
 // custom error handler (Connect respects this prop as well)
 
 function error(status, msg) {
+logger.error(`>>> Entering error(status=${status},msg=${msg})`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
   var err = new Error(msg);
   err.status = status;
+logger.error(`error(status=${status},msg=${msg}): err → ${err}`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
+logger.warn(`<<< Exiting error(status=${status},msg=${msg})`, { "event.action": "error", "logrite.status": status, "logrite.msg": msg });
   return err;
 }
 
@@ -73,18 +77,22 @@ var userRepos = {
 
 // example: http://localhost:3000/api/users/?api-key=foo
 app.get('/api/users', function (req, res) {
+logger.error(`>>> Entering GET_api_users(req=${req},res=${res})`, { "event.action": "GET_api_users" });
   res.send(users);
 });
 
 // example: http://localhost:3000/api/repos/?api-key=foo
 app.get('/api/repos', function (req, res) {
+logger.error(`>>> Entering GET_api_repos(req=${req},res=${res})`, { "event.action": "GET_api_repos" });
   res.send(repos);
 });
 
 // example: http://localhost:3000/api/user/tobi/repos/?api-key=foo
 app.get('/api/user/:name/repos', function(req, res, next){
+logger.error(`>>> Entering GET_api_user_name_repos(req=${req},res=${res},next=${next})`, { "event.action": "GET_api_user_name_repos" });
   var name = req.params.name;
   var user = userRepos[name];
+logger.error(`GET_api_user_name_repos(req=${req},res=${res},next=${next}): name → ${name}`, { "event.action": "GET_api_user_name_repos" });
 
   if (user) res.send(user);
   else next();

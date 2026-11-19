@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -30,6 +31,7 @@ app.set('views', 'expressjs/express');
 app.set('view', GithubView);
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   // rendering a view relative to the repo.
   // app.locals, res.locals, and locals passed
   // work like they normally would
@@ -37,6 +39,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/Readme.md', function(req, res){
+logger.error(`>>> Entering GET_Readme_md(req=${req},res=${res})`, { "event.action": "GET_Readme_md" });
   // rendering a view from https://github.com/expressjs/express/blob/master/Readme.md
   res.render('Readme.md');
 });

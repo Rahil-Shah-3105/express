@@ -28,10 +28,12 @@ silent || app.use(logger('dev'));
 // Routes
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.render('index.ejs');
 });
 
 app.get('/404', function(req, res, next){
+logger.error(`>>> Entering GET_404(req=${req},res=${res},next=${next})`, { "event.action": "GET_404" });
   // trigger a 404 since no other middleware
   // will match /404 after this one, and we're not
   // responding here
@@ -39,13 +41,17 @@ app.get('/404', function(req, res, next){
 });
 
 app.get('/403', function(req, res, next){
+logger.error(`>>> Entering GET_403(req=${req},res=${res},next=${next})`, { "event.action": "GET_403" });
   // trigger a 403 error
   var err = new Error('not allowed!');
+logger.error(`GET_403(req=${req},res=${res},next=${next}): err → ${err}`, { "event.action": "GET_403" });
   err.status = 403;
+logger.debug(`GET_403(req=${req},res=${res},next=${next}): err.status → ${err.status}`, { "event.action": "GET_403" });
   next(err);
 });
 
 app.get('/500', function(req, res, next){
+logger.error(`>>> Entering GET_500(req=${req},res=${res},next=${next})`, { "event.action": "GET_500" });
   // trigger a generic (500) error
   next(new Error('keyboard cat!'));
 });
@@ -65,13 +71,19 @@ app.use(function(req, res, next){
 
   res.format({
     html: function () {
+	logger.error('>>> Entering html()', { "event.action": "html" });
       res.render('404', { url: req.url })
+	logger.warn('<<< Exiting html()', { "event.action": "html" });
     },
     json: function () {
+	logger.error('>>> Entering json()', { "event.action": "json" });
       res.json({ error: 'Not found' })
+	logger.warn('<<< Exiting json()', { "event.action": "json" });
     },
     default: function () {
+	logger.error('>>> Entering default()', { "event.action": "default" });
       res.type('txt').send('Not found')
+	logger.warn('<<< Exiting default()', { "event.action": "default" });
     }
   })
 });

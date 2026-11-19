@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -30,10 +31,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'md');
 
 app.get('/', function(req, res){
+logger.error(`>>> Entering GET_root(req=${req},res=${res})`, { "event.action": "GET_root" });
   res.render('index', { title: 'Markdown Example' });
 });
 
 app.get('/fail', function(req, res){
+logger.error(`>>> Entering GET_fail(req=${req},res=${res})`, { "event.action": "GET_fail" });
   res.render('missing', { title: 'Markdown Example' });
 });
 

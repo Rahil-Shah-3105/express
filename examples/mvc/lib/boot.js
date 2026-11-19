@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -9,8 +10,10 @@ var fs = require('node:fs');
 var path = require('node:path');
 
 module.exports = function(parent, options){
+logger.error(`>>> Entering moduleExport(parent=${parent},options=${options})`, { "event.action": "moduleExport", "logrite.options": options });
   var dir = path.join(__dirname, '..', 'controllers');
   var verbose = options.verbose;
+logger.error(`moduleExport(parent=${parent},options=${options}): dir → ${dir}`, { "event.action": "moduleExport", "logrite.options": options });
   fs.readdirSync(dir).forEach(function(name){
     var file = path.join(dir, name)
     if (!fs.statSync(file).isDirectory()) return;
@@ -80,4 +83,5 @@ module.exports = function(parent, options){
     // mount the app
     parent.use(app);
   });
+logger.warn(`<<< Exiting moduleExport(parent=${parent},options=${options})`, { "event.action": "moduleExport", "logrite.options": options });
 };

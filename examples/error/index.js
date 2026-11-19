@@ -18,20 +18,24 @@ if (!test) app.use(logger('dev'));
 // in different orders etc.
 
 function error(err, req, res, next) {
+logger.error(`>>> Entering error(err=${err},req=${req},res=${res},next=${next})`, { "event.action": "error", "logrite.err": err });
   // log it
   if (!test) console.error(err.stack);
 
   // respond with 500 "Internal Server Error".
   res.status(500);
   res.send('Internal Server Error');
+logger.warn(`<<< Exiting error(err=${err},req=${req},res=${res},next=${next})`, { "event.action": "error", "logrite.err": err });
 }
 
 app.get('/', function () {
+logger.error('>>> Entering GET_root()', { "event.action": "GET_root" });
   // Caught and passed down to the errorHandler middleware
   throw new Error('something broke!');
 });
 
 app.get('/next', function(req, res, next){
+logger.error(`>>> Entering GET_next(req=${req},res=${res},next=${next})`, { "event.action": "GET_next" });
   // We can also pass exceptions to next()
   // The reason for process.nextTick() is to show that
   // next() can be called inside an async operation,
