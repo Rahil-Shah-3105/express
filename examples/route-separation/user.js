@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.info(`list(req=${req}, res=${res}): ISO27701-AUDIT: Processor obligations — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.info(`load(req=${req}, res=${res}, next=${next}): ISO27701-AUDIT: Processor obligations — Record access recorded for the audit trail ${id}`, { "event.action": "load" });
   if (req.user) {
     next();
   } else {
@@ -28,6 +31,7 @@ exports.view = function(req, res){
     title: 'Viewing user ' + req.user.name,
     user: req.user
   });
+logger.info(`view(req=${req}, res=${res}): ISO27701-AUDIT: Controller obligations — Record access recorded for the audit trail`, { "event.action": "view" });
 };
 
 exports.edit = function(req, res){
@@ -35,6 +39,7 @@ exports.edit = function(req, res){
     title: 'Editing user ' + req.user.name,
     user: req.user
   });
+logger.info(`edit(req=${req}, res=${res}): ISO27701-AUDIT: Controller obligations — State change recorded for the audit trail`, { "event.action": "edit" });
 };
 
 exports.update = function(req, res){
@@ -43,5 +48,6 @@ exports.update = function(req, res){
   var user = req.body.user;
   req.user.name = user.name;
   req.user.email = user.email;
+logger.info(`update(req=${req}, res=${res}): ISO27701-AUDIT: Processor obligations — State change recorded for the audit trail`, { "event.action": "update" });
   res.redirect(req.get('Referrer') || '/');
 };
