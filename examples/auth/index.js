@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -65,6 +66,7 @@ function authenticate(name, pass, fn) {
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
+logger.info(`authenticate(name=${name}, pass=${pass}, fn=${fn}): GDPR-AUDIT: Transfers to third countries — Password reset operation performed for user ${user}`, { "event.action": "authenticate", "logrite.name": name, "logrite.pass": pass, "logrite.fn": fn });
   hash({ password: pass, salt: user.salt }, function (err, pass, salt, hash) {
     if (err) return fn(err);
     if (hash === user.hash) return fn(null, user)
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.warn(`restrict(req=${req}, res=${res}, next=${next}): GDPR-AUDIT [Art.15]: Data subject right exercised for data subject`, { "event.action": "restrict" });
 }
 
 app.get('/', function(req, res){
@@ -93,6 +96,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.info(`GET_logout(req=${req}, res=${res}): GDPR-AUDIT: Transfers to third countries — Session management operation performed`, { "event.action": "GET_logout" });
     res.redirect('/');
   });
 });

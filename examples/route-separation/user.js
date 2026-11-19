@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // Fake user database
@@ -9,11 +10,13 @@ var users = [
 
 exports.list = function(req, res){
   res.render('users', { title: 'Users', users: users });
+logger.warn(`list(req=${req}, res=${res}): GDPR-AUDIT [Art. 6]: Lawfulness of processing — Record access recorded for the audit trail`, { "event.action": "list" });
 };
 
 exports.load = function(req, res, next){
   var id = req.params.id;
   req.user = users[id];
+logger.info(`load(req=${req}, res=${res}, next=${next}): GDPR-AUDIT [Art. 25]: Data protection by design and by default — Record access recorded for the audit trail ${id}`, { "event.action": "load" });
   if (req.user) {
     next();
   } else {

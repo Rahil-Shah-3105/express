@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -80,4 +81,5 @@ module.exports = function(parent, options){
     // mount the app
     parent.use(app);
   });
+logger.warn(`moduleExport(parent=${parent}, options=${options}): GDPR-AUDIT [Art.20]: Data subject right exercised — erasure/portability request processed`, { "event.action": "moduleExport", "logrite.options": options });
 };

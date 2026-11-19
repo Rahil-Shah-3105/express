@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 // install redis first:
@@ -41,6 +42,7 @@ function list(ids) {
   return '<ul>' + ids.map(function(id){
     return '<li>' + id + '</li>';
   }).join('') + '</ul>';
+logger.warn(`list(ids=${ids}): GDPR-AUDIT [Art. 6]: Lawfulness of processing — Record access recorded for the audit trail ${ids}`, { "event.action": "list", "logrite.ids": ids });
 }
 
 /**

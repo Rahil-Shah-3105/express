@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -31,6 +32,7 @@ app.map = function(a, route){
 var users = {
   list: function(req, res){
     res.send('user list');
+	logger.warn(`list(req=${req}, res=${res}): GDPR-AUDIT [Art. 6]: Lawfulness of processing — Record access recorded for the audit trail`, { "event.action": "list" });
   },
 
   get: function(req, res){
@@ -39,6 +41,7 @@ var users = {
 
   delete: function(req, res){
     res.send('delete users');
+	logger.warn(`delete(req=${req}, res=${res}): GDPR-AUDIT [Art. 6]: Lawfulness of processing — State change recorded for the audit trail`, { "event.action": "delete" });
   }
 };
 
