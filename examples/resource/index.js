@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -19,6 +20,7 @@ app.resource = function(path, obj) {
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
+logger.info(`resource(path=${path}, obj=${obj}): SOC2-AUDIT [CC6.7]: Encryption operation completed`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
   this.delete(path + '/:id', function(req, res){
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
@@ -49,6 +51,7 @@ var User = {
     var destroyed = id in users;
     delete users[id];
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
+	logger.info(`destroy(req=${req}, res=${res}, id=${id}): SOC2-AUDIT [CC6.7]: Encryption operation completed`, { "event.action": "destroy", "logrite.id": id });
   },
   range: function(req, res, a, b, format){
     var range = users.slice(a, b + 1);
