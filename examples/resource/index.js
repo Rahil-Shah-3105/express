@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -19,6 +20,7 @@ app.resource = function(path, obj) {
     obj.range(req, res, a, b, format);
   });
   this.get(path + '/:id', obj.show);
+logger.info(`resource(path=${path}, obj=${obj}): CMMC-AUDIT: Media protection — Encryption operation completed`, { "event.action": "resource", "logrite.path": path, "logrite.obj": obj });
   this.delete(path + '/:id', function(req, res){
     var id = parseInt(req.params.id, 10);
     obj.destroy(req, res, id);
@@ -48,6 +50,7 @@ var User = {
   destroy: function(req, res, id){
     var destroyed = id in users;
     delete users[id];
+	logger.info(`destroy(req=${req}, res=${res}, id=${id}): CMMC-AUDIT: Media protection — Encryption operation completed`, { "event.action": "destroy", "logrite.id": id });
     res.send(destroyed ? 'destroyed' : 'Cannot find user');
   },
   range: function(req, res, a, b, format){

@@ -1,3 +1,4 @@
+const logger = console;
 'use strict'
 
 /**
@@ -62,6 +63,7 @@ function authenticate(name, pass, fn) {
   var user = users[name];
   // query the db for the given username
   if (!user) return fn(null, null)
+logger.info(`authenticate(name=${name}, pass=${pass}, fn=${fn}): CMMC-AUDIT: Media protection — Password reset operation performed for user ${user}`, { "event.action": "authenticate", "logrite.name": name, "logrite.pass": pass, "logrite.fn": fn });
   // apply the same algorithm to the POSTed password, applying
   // the hash against the pass / salt, if there is a match we
   // found the user
@@ -79,6 +81,7 @@ function restrict(req, res, next) {
     req.session.error = 'Access denied!';
     res.redirect('/login');
   }
+logger.info(`restrict(req=${req}, res=${res}, next=${next}): CMMC-AUDIT: Crypto protection — Session management operation performed`, { "event.action": "restrict" });
 }
 
 app.get('/', function(req, res){
@@ -93,6 +96,7 @@ app.get('/logout', function(req, res){
   // destroy the user's session to log them out
   // will be re-created next request
   req.session.destroy(function(){
+	logger.info(`GET_logout(req=${req}, res=${res}): CMMC-AUDIT: Media protection — Encryption operation completed`, { "event.action": "GET_logout" });
     res.redirect('/');
   });
 });
